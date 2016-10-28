@@ -1,0 +1,53 @@
+<!doctype html>
+<html xmlns=http://www.w3.org/1999/xhtml lang=en>
+
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Mutation</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../library/css/styles.css" type="text/css">
+    <link rel="stylesheet" href="mutation.css" type="text/css">
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <h1 id="header"></h1>
+        <div id="instruction"></div>
+        <div id="explanation"></div>
+        <div class="Clear"></div>
+
+        <span class="bioHeader">DNA: </span> 
+        <b class="direction">5′</b> 
+        <input type="text" id="input" placeholder="Kodende DNA sekvens..."> 
+        <b class="direction">3′</b>
+        
+        <div><div class="distanceHolder"><span class="bioHeader">mRNA 1: </span></div> <span id="mRNA"></span></div>
+        <div><div class="distanceHolder"><span class="bioHeader">mRNA 2: </span></div> <span id="mRNA_extended"></span></div>
+         
+        <div><div class="distanceHolder"><span class="bioHeader">Sekvensangivelse 1: </span></div> <span id="protein_sym"></span></div>
+        <div><div class="distanceHolder"><span class="bioHeader">Sekvensangivelse 2: </span></div> <span id="protein_symShort"></span></div>
+        <div><div class="distanceHolder"><span class="bioHeader">Aminosyrer i sekvens: </span></div> <span id="protein_name"></span></div>
+        
+    </div>
+    <script src="../library/vendor_scripts.js"></script>
+    <script src="../library/custom_scripts.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            getAjaxData("GET", "json/quizData.json", false, "json"); 
+            console.log("jsonData: " + JSON.stringify(jsonData));
+        });
+    </script>
+    
+    <script type="text/javascript" src="mutation.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            one_line_footer();
+        });
+    </script>
+</body>
+
+</html>

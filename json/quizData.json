@@ -1,0 +1,8 @@
+{
+	"header" : "Mutation",
+	"instruction" : "Kursist instruktion...",
+	"explanation" : "Kursist forklaring...",
+	"codingStrand_old": "AAATACGACTACTCCACTGAAACTTGG",
+	"codingStrand": "aaatacgactactccactgaaacttgg",
+	"codingStrand_BACKUP": "TGATACGGACTACTGGACACTTGA"
+}					 

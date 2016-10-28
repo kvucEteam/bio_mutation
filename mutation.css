@@ -1,0 +1,53 @@
+.bioHeader{
+	font-weight: 800;
+	margin-right: 20px;
+}
+.distanceHolder{
+	width: 150px;
+	display: inline-block;
+}
+.direction{
+	font-size: 1.1em;
+}
+#input{
+	width: 80%;
+}
+.start{
+	background-color: #73f9a9;
+}
+.stop{
+	background-color: #e26060;
+}
+.UTR5{
+	background-color: #b5f8d5;
+}
+.UTR3{
+	background-color: #f6c0c0;
+}
+.polyA{
+	background-color: #fde7e7; 
+}
+.redMsg{
+	margin-left: 20px;
+	color: #e26060;
+}
+.alanin{ background-color: inherit;}
+.arginin{ background-color: inherit;}
+.aspargin{ background-color: inherit;}
+.asparginsyre{ background-color: inherit;}
+.cystein{ background-color: inherit;}
+.glutamin{ background-color: inherit;}
+.glutaminsyre{ background-color: inherit;}
+.glycin{ background-color: inherit;}
+.histidin{ background-color: inherit;}
+.isoleucin{ background-color: inherit;}
+.leucin{ background-color: inherit;}
+.lysin{ background-color: inherit;}
+.methionin{ background-color: inherit;}
+.fenylalanin{ background-color: inherit;}
+.prolin{ background-color: inherit;}
+.serin{ background-color: inherit;}
+.threonin{ background-color: inherit;}
+.tryptofan{ background-color: inherit;}
+.tyrosin{ background-color: inherit;}
+.valin{ background-color: inherit;}
