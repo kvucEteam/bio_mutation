@@ -29,8 +29,8 @@
 	margin: 0px;
 }
 .sideToggleContainer{
-	border: 1px solid #D0D0D0;
-	width: 98%;
+	/*border: 1px solid #D0D0D0;*/
+	width: 97.5%;
 	margin-top: 16px;
 }
 .sideToggleBar{
@@ -38,6 +38,7 @@
 }
 .sideToggleIcon{
 	margin-left: 10px;
+	margin-right: 10px;
 }
 .sideToggleContent{
 	display: none;
@@ -55,22 +56,31 @@
 	margin-left: 20px;
 	color: #e26060;
 }
-.alanin{ background-color: #FFFF00;}        /* color from FR */
-.arginin{ background-color: #89BD7D;}       /* color from FR */
-.aspargin{ background-color: #00EF00;}		/* color from FR */
+/*.alanin{ background-color: #FFFF00;} */       /* color from FR */
+/*.arginin{ background-color: #89BD7D;}*/       /* color from FR */
+/*.aspargin{ background-color: #00EF00;}*/		/* color from FR */
+.alanin{ background-color: inherit;}        
+.arginin{ background-color: inherit;}       
+.aspargin{ background-color: inherit;}		
 .asparginsyre{ background-color: inherit;}
 .cystein{ background-color: inherit;}
 .glutamin{ background-color: inherit;}
 .glutaminsyre{ background-color: inherit;}
-.glycin{ background-color: #FF9900;}		/* color from FR */
+/*.glycin{ background-color: #FF9900;}*/		/* color from FR */
+.glycin{ background-color: inherit;}		
 .histidin{ background-color: inherit;}
-.isoleucin{ background-color: #A64D79;}		/* color from FR */
+/*.isoleucin{ background-color: #A64D79;}*/		/* color from FR */
+.isoleucin{ background-color: inherit;}
 .leucin{ background-color: inherit;}
-.lysin{ background-color: #9900FF;}			/* color from FR */
-.methionin{ background-color: #F7009F;}
+/*.lysin{ background-color: #9900FF;}*/			/* color from FR */
+.lysin{ background-color: inherit;}	
+/*.methionin{ background-color: #F7009F;}*/     /* color from FR */
+.methionin{ background-color: inherit;}
 .fenylalanin{ background-color: inherit;}
-.prolin{ background-color: #CC4125;}		/* color from FR */
-.serin{ background-color: #00FFFF;}			/* color from FR */
+/*.prolin{ background-color: #CC4125;}*/		/* color from FR */
+/*.serin{ background-color: #00FFFF;}	*/		/* color from FR */
+.prolin{ background-color: inherit;}		
+.serin{ background-color: inherit;}			
 .threonin{ background-color: inherit;}
 .tryptofan{ background-color: inherit;}
 .tyrosin{ background-color: inherit;}
