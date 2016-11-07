@@ -1,0 +1,38 @@
+{
+	"header" : "Mutation (øvelser)",
+	"instruction" : "Kursist instruktion... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. ",
+	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
+	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+	"quiz" : [
+		{
+			"codingStrand": "TTTATGGGGCTCAGCGACGCGTAG",
+			"question": "Lav en punktmutation som ændrer aminosyren alanin til valin",
+			"mutation":{"from":"Alanin", "to":"Valin"}
+		},
+		{
+			"codingStrand": "TTTATGGGGCTCAGCGACCCCTAG",
+			"question": "lLv en punktmutation som ændrer aminosyren prolin til threonin",
+			"mutation":{"from":"Prolin", "to":"Threonin"}
+		},
+		{
+			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"question": "Lav en punktmutation uden at ændre på aminosyresekvensen (stille mutation)" 
+		},
+		{
+			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"question": "Lav en punktmutation som fører til en frameshift-mutation (insertion eller deletion)"
+		},
+		{
+			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"question": "Indsæt et stopcodon ved kun at ændre på ét nukleotid"
+		},
+		{
+			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"question": "Indsæt et stopcodon som gør at proteinet kun bliver fem aminosyrer langt"
+		},
+		{
+			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"question": "Reskriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen"
+		}
+	]
+}					 

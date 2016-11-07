@@ -1,8 +1,8 @@
 {
-	"header" : "Mutation",
-	"instruction" : "Kursist instruktion...",
-	"explanation" : "Kursist forklaring...",
+	"header" : "Mutation (eksplorativt objekt)",
+	"instruction" : "Kursist instruktion... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. ",
+	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
 	"codingStrand_old": "AAATACGACTACTCCACTGAAACTTGG",
-	"codingStrand": "aaatacgactactccactgaaacttgg",
-	"codingStrand_BACKUP": "TGATACGGACTACTGGACACTTGA"
+	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+	"codingStrand_BACKUP": "TTTATGCTGATGAGGTGACTTTGAACC" 
 }					 

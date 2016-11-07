@@ -25,7 +25,7 @@
 
 // background-color: #454E4F
 
-// TYPES OG MUTATIONS: 
+// TYPES OG MUTATIONS:
 // http://evolution.berkeley.edu/evolibrary/article/mutations_03 
 
 // mRNA
@@ -385,6 +385,111 @@ console.log('DNAtoProtein: ' + JSON.stringify(DNAtoProtein('TACCATCATTACCAT')));
 // input.setSelectionRange(2,5);
 
 
+function initQuiz(){
+
+    for (var n in jsonData.quiz){
+        jsonData.quiz[n].completed = false;
+    }
+    console.log('initQuiz - jsonData: ' + JSON.stringify(jsonData));
+}
+
+
+function updateQuestionAndCounter(){
+    $('#question').html('<span id="questionCounter">'+String(dObj.questionNo+1)+'/'+dObj.questionCounter+'</span>'+jsonData.quiz[dObj.questionNo].question);
+}
+
+
+
+
+function checkForPointMutation(){
+    var answerDnaSquence = $('#input').val();
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+    if (answerDnaSquence.length == codingStrand.length) {
+        var answerDnaSquenceArr = answerDnaSquence.split('');
+        var codingStrandArr = codingStrand.split('');
+        var mArr = [];
+        for (var n in answerDnaSquence){
+            if (answerDnaSquenceArr[n] != codingStrandArr[n]){
+                mArr.push(n);
+            }
+        }
+        if (mArr.length == 0){
+            console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+        }
+        if (mArr.length == 1){
+            console.log('checkForPointMutation - punktmutation er lavet!');
+            var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
+            var pObj = DNAtoProtein(dna_templateStr);
+            console.log('checkForPointMutation - correctAminoAcid: ' + jsonData.quiz[dObj.questionNo].mutation.to);
+            if (pObj.name.indexOf(jsonData.quiz[dObj.questionNo].mutation.to)!==-1) {
+                var HTML = '';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+            } else {
+                console.log('checkForPointMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
+                var HTML = '';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'</p>');
+            }
+        }
+        if (mArr.length > 1){
+            console.log('checkForPointMutation - flere punktmutationer er lavet!');
+        }
+    } else {
+        console.log('checkForPointMutation - DNA har ændret længde - dette er ikke en punktmutation!');
+    }
+}
+
+
+function poseQuestion(){
+    updateQuestionAndCounter();
+
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+    var dna_templateStr = complementaryDnaStrand(codingStrand);
+    
+    $('#input').val(codingStrand);
+    var pObj = DNAtoProtein(dna_templateStr);
+    $('#userMsg').html(pObj.userMsg);
+    // $('#dna_templateStrand').html(dna_templateStr);
+    $('#dna_templateStrand').html(pObj.dna_templateStr_html);
+    $('#mRNA').html(pObj.mRNA_html);
+    $('#mRNA_extended').html(pObj.mRNA_html_extended);
+    $('#protein_name').text(pObj.name);
+    $('#protein_sym').text(pObj.sym);
+    $('#protein_symShort').text(pObj.symShort);
+}
+
+
+function checkAnswer(){
+    if (($('#UserMsgBox .label-danger').length) > 0) { dObj.isAnswerCorrect = false; }
+    if (($('#UserMsgBox .label-success').length) > 0) { dObj.isAnswerCorrect = true; }
+    console.log('UserMsgBox - CLICKED - isAnswerCorrect: ' + dObj.isAnswerCorrect);
+
+    dObj.questionNo += (dObj.isAnswerCorrect)? 1 : 0;
+    poseQuestion();
+    dObj.isAnswerCorrect = null;
+}
+
+
+$( document ).on('click', "#checkAnswer", function(event){
+    checkForPointMutation();
+});
+
+// #UserMsgBox .label-danger
+// #UserMsgBox .label-success
+
+$( document ).on('click', "#UserMsgBox", function(event){
+    window.UserMsgBox_id_pressed = true;
+    checkAnswer();
+});
+
+
+$( document ).on('click', ".MsgBox_bgr", function(event){
+    if ((typeof(UserMsgBox_id_pressed)==='undefined') || (UserMsgBox_id_pressed == false)){  // If UserMsgBox then this also runs, which makes dObj.questionNo count twice! This prevents that.
+        checkAnswer();
+    }
+    UserMsgBox_id_pressed = false;
+});
+
+
 $( document ).on('keyup', "#input", function(event){
     var Tdna = $(this).val().trim();
     var dna = Tdna.match(/[acgtACGT]/g).join().replace(/,/g,''); // Only allow DNA bases letters in normal or capital form.
@@ -426,23 +531,39 @@ $(window).on('resize', function() {
     
 });
 
+// $(document).ready(function() {
+
+//     var dna_templateStr = complementaryDnaStrand(jsonData.codingStrand.toUpperCase());
+    
+//     $('#header').prepend(jsonData.header);
+//     $('#instruction').prepend(instruction(jsonData.instruction));  
+//     $('#explanation').prepend(explanation(jsonData.explanation));
+
+//     $('#input').val(jsonData.codingStrand.toUpperCase());
+//     var pObj = DNAtoProtein(dna_templateStr);
+//     $('#userMsg').html(pObj.userMsg);
+//     // $('#dna_templateStrand').html(dna_templateStr);
+//     $('#dna_templateStrand').html(pObj.dna_templateStr_html);
+//     $('#mRNA').html(pObj.mRNA_html);
+//     $('#mRNA_extended').html(pObj.mRNA_html_extended);
+//     $('#protein_name').text(pObj.name);
+//     $('#protein_sym').text(pObj.sym);
+//     $('#protein_symShort').text(pObj.symShort);
+// });
+
+
 $(document).ready(function() {
 
-    var dna_templateStr = complementaryDnaStrand(jsonData.codingStrand.toUpperCase());
-    
     $('#header').prepend(jsonData.header);
     $('#instruction').prepend(instruction(jsonData.instruction));  
     $('#explanation').prepend(explanation(jsonData.explanation));
 
-    $('#input').val(jsonData.codingStrand.toUpperCase());
-    var pObj = DNAtoProtein(dna_templateStr);
-    $('#userMsg').html(pObj.userMsg);
-    // $('#dna_templateStrand').html(dna_templateStr);
-    $('#dna_templateStrand').html(pObj.dna_templateStr_html);
-    $('#mRNA').html(pObj.mRNA_html);
-    $('#mRNA_extended').html(pObj.mRNA_html_extended);
-    $('#protein_name').text(pObj.name);
-    $('#protein_sym').text(pObj.sym);
-    $('#protein_symShort').text(pObj.symShort);
+    dObj.questionCounter = jsonData.quiz.length; // Set the length of the quiz.
+    dObj.questionNo = 0;  // Set the first quiz
+    dObj.isAnswerCorrect = null;
+
+    initQuiz();
+
+    poseQuestion();
 });
 

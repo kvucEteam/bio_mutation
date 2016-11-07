@@ -10,13 +10,16 @@
 }
 .bioHolder{
 	width: 80%;
-	border: 1px solid #D0D0D0; 
+	border: 1px solid #D0D0D0;
 	display: inline-block;
 	padding: 3px;
 }
 .distanceHolder{
 	width: 200px;
 	display: inline-block;
+}
+#userMsg {
+	margin-left: 200px;
 }
 .direction{
 	font-size: 1.1em;
@@ -29,7 +32,7 @@
 	margin: 0px;
 }
 .sideToggleContainer{
-	border: 1px solid #D0D0D0;
+	border: 1px solid #D0D0D0; 
 	width: 98%;
 	margin-top: 16px;
 }
@@ -42,6 +45,9 @@
 .sideToggleContent{
 	display: none;
 }
+#questionCounter{
+	margin-right: 10px;
+}
 .UTR5{
 	background-color: #b5f8d5;
 }
@@ -52,7 +58,7 @@
 	background-color: #fde7e7; 
 }
 .redMsg{
-	margin-left: 20px;
+	/*margin-left: 20px;*/
 	color: #e26060;
 }
 .alanin{ background-color: #FFFF00;}        /* color from FR */

@@ -7,7 +7,7 @@
     <title>Mutation</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../library/css/styles.css" type="text/css">
-    <link rel="stylesheet" href="mutation.css" type="text/css">
+    <link rel="stylesheet" href="mutation1.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 </head>
 
@@ -15,12 +15,13 @@
     <div class="container-fluid">
 
         <h1 id="header"></h1>
-        <div id="instruction"></div> 
+        <div id="instruction"></div>
         <div id="explanation"></div>
         <div class="Clear"></div>
-<!--
-        <h3>2/7 Reskriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen.</h3>
--->
+
+        <h3 id="question">
+        </h3>
+
         <div>
             <div class="distanceHolder">
                 <h4 class="bioHeader">DNA kodende streng: </h4> 
@@ -37,7 +38,7 @@
             <div id="dna_templateStrand" class="bioHolder"></div>
         </div>
         
-        <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div>
+        <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div> 
 <!--        
         <div><div class="distanceHolder"><span class="bioHeader">mRNA 2: </span></div> <div id="mRNA_extended" class="bioHolder"></div></div>
 -->        
@@ -46,6 +47,8 @@
         <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse 2: </h4></div> <div id="protein_symShort" class="bioHolder"></div></div>
 -->
         <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyrersekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
+
+        <span id="checkAnswer" class="btn btn-primary">TJEK SVAR</span>
 
         <div class="sideToggleContainer">
             <div class="sideToggleBar"> <span class="sideToggleIcon glyphicon glyphicon-chevron-down"></span> </div>
@@ -63,12 +66,12 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            getAjaxData("GET", "json/quizData.json", false, "json"); 
+            getAjaxData("GET", "json/quizData1.json", false, "json"); 
             console.log("jsonData: " + JSON.stringify(jsonData));
         });
     </script>
     
-    <script type="text/javascript" src="mutation.js"></script>
+    <script type="text/javascript" src="mutation1.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function() {
