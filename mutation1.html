@@ -19,46 +19,49 @@
         <div id="explanation"></div>
         <div class="Clear"></div>
 
-        <h3 id="question">
-        </h3>
+        <div id="quizWrap">
 
-        <div>
-            <div class="distanceHolder">
-                <h4 class="bioHeader">DNA kodende streng: </h4> 
+            <h3 id="question">
+            </h3>
+
+            <div>
+                <div class="distanceHolder">
+                    <h4 class="bioHeader">DNA kodende streng: </h4> 
+                </div>
+                <input type="text" id="input" placeholder="Kodende DNA sekvens..."> 
             </div>
-            <input type="text" id="input" placeholder="Kodende DNA sekvens..."> 
-        </div>
 
-        <div id="userMsg"></div>
+            <div id="userMsg"></div>
 
-        <div>
-            <div class="distanceHolder">
-                <h4 class="bioHeader">DNA template streng: </h4> 
+            <div>
+                <div class="distanceHolder">
+                    <h4 class="bioHeader">DNA template streng: </h4> 
+                </div>
+                <div id="dna_templateStrand" class="bioHolder"></div>
             </div>
-            <div id="dna_templateStrand" class="bioHolder"></div>
-        </div>
-        
-        <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div> 
-<!--        
-        <div><div class="distanceHolder"><span class="bioHeader">mRNA 2: </span></div> <div id="mRNA_extended" class="bioHolder"></div></div>
--->        
-        <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse: </h4></div> <div id="protein_sym" class="bioHolder"></div></div>
-<!--         
-        <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse 2: </h4></div> <div id="protein_symShort" class="bioHolder"></div></div>
--->
-        <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyrersekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
+            
+            <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div> 
+    <!--        
+            <div><div class="distanceHolder"><span class="bioHeader">mRNA 2: </span></div> <div id="mRNA_extended" class="bioHolder"></div></div>
+    -->        
+            <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse: </h4></div> <div id="protein_sym" class="bioHolder"></div></div>
+    <!--         
+            <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse 2: </h4></div> <div id="protein_symShort" class="bioHolder"></div></div>
+    -->
+            <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyrersekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
 
-        <span id="checkAnswer" class="btn btn-primary">TJEK SVAR</span>
+            <span id="checkAnswer" class="btn btn-primary">TJEK SVAR</span>
 
-        <div class="sideToggleContainer">
-            <div class="sideToggleBar"> <span class="sideToggleIcon glyphicon glyphicon-chevron-right"></span> Se den genetiske kode her</div>
-            <div class="sideToggleContent">
-                <center>
-                    <img class="img-responsive" src="img/genetiskkodehjul.png" alt="Den genetiske kode">
-                </center>
+            <div class="sideToggleContainer">
+                <div class="sideToggleBar"> <span class="sideToggleIcon glyphicon glyphicon-chevron-right"></span> Se den genetiske kode her</div>
+                <div class="sideToggleContent">
+                    <center>
+                        <img class="img-responsive" src="img/genetiskkodehjul.png" alt="Den genetiske kode">
+                    </center>
+                </div>
             </div>
-        </div>
-        
+
+        </div>  <!-- END #quizWrap -->
     </div>
     <script src="../library/vendor_scripts.js"></script>
     <script src="../library/custom_scripts.js"></script>

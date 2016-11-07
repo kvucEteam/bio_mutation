@@ -399,12 +399,222 @@ function updateQuestionAndCounter(){
 }
 
 
+function findStrDiff(strA, strB){
+
+    var strAarr = strA.split('');
+    var strBarr = strB.split('');
+    console.log('findStrDiff: \nstrAarr: ' + strAarr + '\nstrBarr: ' + strBarr);
+
+    var shortStrArr = (strAarr.length >= strBarr.length)? strBarr : strAarr;
+    var mArr = [];
+    for (var n in shortStrArr){
+        if (strAarr[n] != strBarr[n]){
+            mArr.push(n);
+        }
+    }
+    return mArr;
+}
+
+
+function checkMutation(){
+
+    switch (jsonData.quiz[dObj.questionNo].mutationType) {
+        case "pointMutation":
+            console.log('checkMutation - pointMutation');
+            checkForPointMutation();
+            break;
+        case "silentMutation":
+            console.log('checkMutation - silentMutation');
+            checkForSilentMutation();
+            break;
+        case "frameshiftMutation":
+            console.log('checkMutation - frameshiftMutation');
+            checkForFrameshiftMutation();
+            break;
+        case "pointStopMutation":
+            console.log('checkMutation - pointStopMutation');
+            checkForPointStopMutation();
+            break;
+        default:
+            alert('Invalid "mutationType" in jsonData');
+    }
+}
+
+
+function checkForPointStopMutation(){
+    var answerDnaSquence = $('#input').val();
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+
+    var dna_templateStr = complementaryDnaStrand(codingStrand);
+    var pObj_old = DNAtoProtein(dna_templateStr);
+
+    var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
+    var pObj = DNAtoProtein(dna_templateStr);
+
+    console.log('checkForPointStopMutation - pObj.userMsg: ' + pObj.userMsg);
+
+    var generalErrorMsg = 'Du skal lave en punktmutation som skaber et stop codon. Brug "Den genetiske kode" til af finde ud af hvordan et stop codon ser ud. Gennemgå derefter DNA sekvensen i læserammen og find ud af hvor du kan ændre et codon til et stop codon.';
+
+    var diff = answerDnaSquence.length - codingStrand.length;
+
+    if (diff == 0) {
+        var numOfChangedBases = findStrDiff(answerDnaSquence, codingStrand).length;
+        if (numOfChangedBases == 0){
+            console.log('checkForPointStopMutation - ingen punktmutation er fortaget!');
+            var HTML = 'DNA har ikke ændret nukleotider!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+        if (numOfChangedBases == 1){
+            if (pObj_old.name.length != pObj.name.length) {
+                console.log('checkForFrameshiftMutation - insertion - OK');
+                var HTML = '';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+                pObj.userMsg = '';
+            } else {
+                console.log('checkForPointStopMutation - ingen punktmutation som føre til et stop codon er fortaget! (kun en alm punktmutation er fortaget.)');
+                var HTML = 'DNA har ændret flere nukleotider - du skal kun ændre et nukleotid!';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+            }
+        }
+        if (numOfChangedBases > 1){
+            console.log('checkForPointStopMutation - ingen punktmutation er fortaget!');
+            var HTML = 'DNA har ændret flere nukleotider - du skal kun ændre et nukleotid!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+    }
+
+    if (diff > 0) {
+        console.log('checkForPointStopMutation - insertion');
+        var HTML = 'DNA har fået tilføjet et flere nukleotider - du skal kun foretage en punktmutation ved at ændre et nukleotid!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+
+    if (diff < 0) {
+        console.log('checkForPointStopMutation - deletion');
+        var HTML = 'DNA har fået fjernet et flere nukleotider - du skal kun foretage en punktmutation ved at ændre et nukleotid!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+}
+
+
+function checkForFrameshiftMutation(){
+    var answerDnaSquence = $('#input').val();
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+
+    var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
+    var pObj = DNAtoProtein(dna_templateStr);
+
+    console.log('checkForFrameshiftMutation - pObj.userMsg: ' + pObj.userMsg);
+
+    var generalErrorMsg = 'Du skal finde ud af hvordan en frameshiftmutation forkommer via "insertion" eller "deletion". Ved "insertion" forstås at et ekstra basepar indsættets i læserammen. Ved "deletion" forstås at et basepar fjernes fra læserammen.';
+
+    var diff = answerDnaSquence.length - codingStrand.length;
+
+    if (diff == 0) {
+        console.log('checkForFrameshiftMutation - ingen insertion eller deletion fortaget!');
+        var HTML = 'DNA har ikke ændret længde - dette er ikke "insertion" eller "deletion" mutation!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+
+    if (diff == 1) {
+        console.log('checkForFrameshiftMutation - insertion');
+        if (pObj.userMsg.length > 0) {
+            console.log('checkForFrameshiftMutation - insertion - OK');
+            var HTML = '';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+            pObj.userMsg = '';
+        } else {
+            console.log('checkForFrameshiftMutation - insertion - IKKE OK: insertion uden for læserammen.');
+            var HTML = 'DNA har fået indsat et basepar, dvs en insertion mutation - men dette er sket uden for læserammen!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+    }
+
+    if (diff > 1) {
+        console.log('checkForFrameshiftMutation - insertion - IKKE OK: for mange insertions!');
+        var HTML = 'DNA har fået indsat flere basepar - du skal kun fortage en "insertion" eller "deletion" mutation!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+
+    if (diff == -1) {
+        console.log('checkForFrameshiftMutation - deletion');
+        if (pObj.userMsg.length > 0) {
+            console.log('checkForFrameshiftMutation - deletion - OK');
+            var HTML = '';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+            pObj.userMsg = '';
+        } else {
+            console.log('checkForFrameshiftMutation - deletion - IKKE OK: insertion uden for læserammen.');
+            var HTML = 'DNA har fået fjernet et basepar, dvs en deletion mutation - men dette er sket uden for læserammen!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+    }
+
+    if (diff < -1) {
+        console.log('checkForFrameshiftMutation - deletion - IKKE OK: for mange deletions!');
+        var HTML = 'DNA har fået fjernet flere basepar - du skal kun fortage en "insertion" eller "deletion" mutation!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+
+}
+
+
+function checkForSilentMutation(){
+    var answerDnaSquence = $('#input').val();
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+
+    var dna_templateStr = complementaryDnaStrand(codingStrand);
+    var pObj_old = DNAtoProtein(dna_templateStr);
+
+    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere en tilfældig aminosyre. Brug derefter "Den genetiske kode" til at finde ud af hvilket basepar der skal ændres for at opnå samme aminosyre.';
+    if (answerDnaSquence.length == codingStrand.length) {
+        console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
+        var answerDnaSquenceArr = answerDnaSquence.split('');
+        var codingStrandArr = codingStrand.split('');
+        var mArr = [];
+        for (var n in answerDnaSquence){
+            if (answerDnaSquenceArr[n] != codingStrandArr[n]){
+                mArr.push(n);
+            }
+        }
+        if (mArr.length == 0){
+            console.log('checkForSilentMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+            var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+        if (mArr.length == 1){
+            console.log('checkForSilentMutation - punktmutation er lavet!');
+            var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
+            var pObj = DNAtoProtein(dna_templateStr);
+            console.log('checkForSilentMutation - pObj_old.name: ' + pObj_old.name + ', pObj.name: ' + pObj.name);
+            if (pObj_old.name == pObj.name) {
+                var HTML = '';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+            } else {
+                console.log('checkForSilentMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
+                var HTML = 'En punktmutation er lavet, men det er ikke den rigtige aminosyre!';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+            }
+        }
+        if (mArr.length > 1){
+            console.log('checkForSilentMutation - flere punktmutationer er lavet!');
+            var HTML = 'Flere punktmutationer er lavet - du skal kun lave en!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        }
+    } else {
+        console.log('checkForSilentMutation - DNA har ændret længde');
+        var HTML = 'DNA har ændret længde - du skal lave en punktmutation som ikke ændre længde!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+    }
+}
 
 
 function checkForPointMutation(){
     var answerDnaSquence = $('#input').val();
     var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere hvor '+jsonData.quiz[dObj.questionNo].mutation.from.toLowerCase()+' er. Brug derefter "Den genetiske kode" til at finde ud af hvilket basepar der skal ændres for at opnå '+jsonData.quiz[dObj.questionNo].mutation.to.toLowerCase()+'.';
     if (answerDnaSquence.length == codingStrand.length) {
+        console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
         var answerDnaSquenceArr = answerDnaSquence.split('');
         var codingStrandArr = codingStrand.split('');
         var mArr = [];
@@ -415,6 +625,8 @@ function checkForPointMutation(){
         }
         if (mArr.length == 0){
             console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+            var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
         }
         if (mArr.length == 1){
             console.log('checkForPointMutation - punktmutation er lavet!');
@@ -426,17 +638,22 @@ function checkForPointMutation(){
                 UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
             } else {
                 console.log('checkForPointMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
-                var HTML = '';
-                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'</p>');
+                var HTML = 'En punktmutation er lavet, men det er ikke den rigtige aminosyre!';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
             }
         }
         if (mArr.length > 1){
             console.log('checkForPointMutation - flere punktmutationer er lavet!');
+            var HTML = 'Flere punktmutationer er lavet - du skal kun lave en!';
+            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
         }
     } else {
-        console.log('checkForPointMutation - DNA har ændret længde - dette er ikke en punktmutation!');
+        console.log('checkForPointMutation - DNA har ændret længde!');
+        var HTML = 'DNA har ændret længde - du skal lave en punktmutation som ikke ændre længde!';
+        UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
     }
 }
+
 
 
 function poseQuestion(){
@@ -455,6 +672,10 @@ function poseQuestion(){
     $('#protein_name').text(pObj.name);
     $('#protein_sym').text(pObj.sym);
     $('#protein_symShort').text(pObj.symShort);
+
+    // $('.bioHolder, #input, #question').hide().fadeIn('slow');  
+    $('#quizWrap').hide().fadeIn('slow');
+
 }
 
 
@@ -470,7 +691,8 @@ function checkAnswer(){
 
 
 $( document ).on('click', "#checkAnswer", function(event){
-    checkForPointMutation();
+    // checkForPointMutation();
+    checkMutation();
 });
 
 // #UserMsgBox .label-danger
@@ -484,6 +706,7 @@ $( document ).on('click', "#UserMsgBox", function(event){
 
 $( document ).on('click', ".MsgBox_bgr", function(event){
     if ((typeof(UserMsgBox_id_pressed)==='undefined') || (UserMsgBox_id_pressed == false)){  // If UserMsgBox then this also runs, which makes dObj.questionNo count twice! This prevents that.
+        console.log('MsgBox_bgr - CLICKED - FIRED!');
         checkAnswer();
     }
     UserMsgBox_id_pressed = false;
@@ -559,7 +782,7 @@ $(document).ready(function() {
     // $('#explanation').prepend(explanation(jsonData.explanation));
 
     dObj.questionCounter = jsonData.quiz.length; // Set the length of the quiz.
-    dObj.questionNo = 0;  // Set the first quiz
+    dObj.questionNo = 4;  // Set the first quiz
     dObj.isAnswerCorrect = null;
 
     initQuiz();

@@ -5,25 +5,30 @@
 	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
 	"quiz" : [
 		{
+			"mutationType" : "pointMutation",
 			"codingStrand": "TTTATGGGGCTCAGCGACGCGTAG",
 			"question": "Lav en punktmutation som ændrer aminosyren alanin til valin",
 			"mutation":{"from":"Alanin", "to":"Valin"}
 		},
 		{
+			"mutationType" : "pointMutation",
 			"codingStrand": "TTTATGGGGCTCAGCGACCCCTAG",
-			"question": "lLv en punktmutation som ændrer aminosyren prolin til threonin",
+			"question": "Lav en punktmutation som ændrer aminosyren prolin til threonin",
 			"mutation":{"from":"Prolin", "to":"Threonin"}
 		},
 		{
+			"mutationType" : "silentMutation",
 			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
-			"question": "Lav en punktmutation uden at ændre på aminosyresekvensen (stille mutation)" 
+			"question": "Lav en punktmutation uden at ændre på aminosyresekvensen (stille mutation)"
 		},
 		{
-			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"mutationType" : "frameshiftMutation",
+			"codingStrand": "TTTATGCTCCGTCCGAGGCCGTGACTTTGAACC",
 			"question": "Lav en punktmutation som fører til en frameshift-mutation (insertion eller deletion)"
 		},
 		{
-			"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+			"mutationType" : "pointStopMutation",
+			"codingStrand": "TTTATGCTGATGTGGTGACTTTGAACC",
 			"question": "Indsæt et stopcodon ved kun at ændre på ét nukleotid"
 		},
 		{
