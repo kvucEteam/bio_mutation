@@ -4,7 +4,7 @@
 <head>
     <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Mutation</title>
+    <title>Mutation - eksplorativ</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="../library/css/styles.css" type="text/css">
     <link rel="stylesheet" href="mutation.css" type="text/css">
@@ -18,9 +18,7 @@
         <div id="instruction"></div> 
         <div id="explanation"></div>
         <div class="Clear"></div>
-<!--
-        <h3>2/7 Reskriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen.</h3>
--->
+
         <div>
             <div class="distanceHolder">
                 <h4 class="bioHeader">DNA kodende streng: </h4> 
@@ -28,14 +26,14 @@
             <input type="text" id="input" placeholder="Kodende DNA sekvens..."> 
         </div>
 
-        <div id="userMsg"></div>
-
         <div>
             <div class="distanceHolder">
-                <h4 class="bioHeader">DNA template streng: </h4> 
+                <h4 class="bioHeader reduceMargin">DNA skabelonstreng: </h4> 
             </div>
             <div id="dna_templateStrand" class="bioHolder"></div>
         </div>
+
+        <div id="userMsg"></div>
         
         <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div>
 <!--        
@@ -45,8 +43,8 @@
 <!--         
         <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse 2: </h4></div> <div id="protein_symShort" class="bioHolder"></div></div>
 -->
-        <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyrersekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
-
+        <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyresekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
+<!-- 
         <div class="sideToggleContainer">
             <div class="sideToggleBar"> <span class="sideToggleIcon glyphicon glyphicon-chevron-right"></span> Se den genetiske kode her </div>
             <div class="sideToggleContent">
@@ -54,6 +52,12 @@
                     <img class="img-responsive" src="img/genetiskkodehjul.png" alt="Den genetiske kode">
                 </center>
             </div>
+        </div>
+ -->
+        <div class="geneticCodeContainer">
+            <center>
+                <img class="img-responsive" src="img/genetiskkodehjul.png" alt="Den genetiske kode">
+            </center>
         </div>
         
     </div>

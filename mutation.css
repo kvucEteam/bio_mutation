@@ -18,6 +18,9 @@
 	width: 200px;
 	display: inline-block;
 }
+.reduceMargin{
+	margin-top: 0px;
+}
 .direction{
 	font-size: 1.1em;
 }

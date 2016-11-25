@@ -1,0 +1,73 @@
+{
+	"header" : "Mutation - øvelser",
+	"instruction" : "Herunder ser du et stykke dobbelt-strenget DNA, det mRNA som kan transskriberes fra DNA’et, samt det protein som dannes ved translation af mRNA’et. Du kan ændre i DNA’et ved at skrive i tekstfeltet, som viser den kodende DNA-streng. Løs opgaverne i tekstfeltet forneden.",
+	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
+	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+	"quiz" : [
+		{
+			"mutationType" : "pointMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation som ændrer aminosyren alanin til valin",
+			"mutation":{"from":"Alanin", "to":"Valin"}
+		},
+		{
+			"mutationType" : "pointMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation som ændrer aminosyren prolin til threonin",
+			"mutation":{"from":"Prolin", "to":"Threonin"}
+		},
+		{
+			"mutationType" : "pointMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "lav en punktmutation som ændrer aminosyren lysin til asparagin",
+			"mutation":{"from":"Lysin", "to":"Asparagin"}
+		},
+		{
+			"mutationType" : "silentMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation uden at ændre på aminosyresekvensen (stille mutation)"
+		},
+		{
+			"mutationType" : "frameshiftMutation",
+			"subType" : "insertion",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation (insertion) som ændrer læserammen (frameshift)"
+		},
+		{
+			"mutationType" : "frameshiftMutation",
+			"subType" : "deletion",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation (deletion) som ændrer læserammen (frameshift)"
+		},
+		{
+			"mutationType" : "frameshiftMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Lav en punktmutation som fører til en frameshift-mutation (insertion eller deletion)"
+		},
+		{
+			"mutationType" : "pointStopMutation",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Indsæt et stopcodon ved kun at ændre på ét nukleotid"
+		},
+		{
+			"mutationType" : "insertedStopCodon",
+			"codonLength" : 5,
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Indsæt et stopcodon som gør at proteinet kun bliver fem aminosyrer langt"
+		},
+		{
+			"mutationType" : "insertedRestrictionEnzyme",
+			"restrictionEnzyme" : "GGATCC",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Restriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen."
+		},
+		{
+			"mutationType" : "madeAminoacidSequence",
+			"codingStrand": "",
+			"aminoacidSequence" : "Met-Ser-Leu-Leu-Ser-Leu-Ile-Arg-Lys-Leu-Ile-Tyr",
+			"question": "Hvepsegiften decoralin har sekvensen Met-Ser-Leu-Leu-Ser-Leu-Ile-Arg-Lys-Leu-Ile-Tyr. Skriv koden for et protein med denne sekvenses, og husk stopcodon."
+		}
+	]
+}					 
+
+

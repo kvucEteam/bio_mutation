@@ -39,19 +39,19 @@
                 </div>
                 <div id="dna_templateStrand" class="bioHolder"></div>
             </div>
-        
-            <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div>
-    <!--        
+            
+            <div><div class="distanceHolder"><h4 class="bioHeader">mRNA: </h4></div> <div id="mRNA" class="bioHolder"></div></div> 
+<!--        
             <div><div class="distanceHolder"><span class="bioHeader">mRNA 2: </span></div> <div id="mRNA_extended" class="bioHolder"></div></div>
-    -->        
+-->        
             <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse: </h4></div> <div id="protein_sym" class="bioHolder"></div></div>
-    <!--         
+<!--         
             <div><div class="distanceHolder"><h4 class="bioHeader">Sekvensangivelse 2: </h4></div> <div id="protein_symShort" class="bioHolder"></div></div>
-    -->
+-->
             <div><div class="distanceHolder"><h4 class="bioHeader">Aminosyresekvens: </h4></div> <div id="protein_name" class="bioHolder"></div></div>
 
             <span id="checkAnswer" class="btn btn-primary">TJEK SVAR</span>
-    <!-- 
+<!-- 
             <div class="sideToggleContainer">
                 <div class="sideToggleBar"> <span class="sideToggleIcon glyphicon glyphicon-chevron-right"></span> Se den genetiske kode her </div>
                 <div class="sideToggleContent">
@@ -60,7 +60,7 @@
                     </center>
                 </div>
             </div>
-     -->
+ -->
             <div class="geneticCodeContainer">
                 <center>
                     <img class="img-responsive" src="img/genetiskkodehjul.png" alt="Den genetiske kode">
@@ -75,7 +75,7 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            getAjaxData("GET", "json/quizData1.json", false, "json"); 
+            getAjaxData("GET", "json/quizData_1b.json", false, "json"); 
             console.log("jsonData: " + JSON.stringify(jsonData));
         });
     </script>

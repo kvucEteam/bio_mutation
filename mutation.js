@@ -319,7 +319,7 @@ function DNAtoProtein(dna){
     var m = pObj.mRNA_html;
     console.log('DNAtoProtein - m: ' + m);
 
-    pObj.userMsg = ((!hasStartCodon)?'<span class="redMsg">Intet start codon er fundet!</span>':'') + ((hasStartCodon && !hasStopCodon)?'<span class="redMsg">Frameshift til stop codon uden den angivne sekvens!</span>':''); 
+    pObj.userMsg = ((!hasStartCodon)?'<span class="redMsg">Intet start codon er fundet!</span>':'') + ((hasStartCodon && !hasStopCodon)?'<span class="redMsg">Frameshift til stop codon uden for den angivne sekvens!</span>':''); 
     console.log('DNAtoProtein - userMsg: ' + pObj.userMsg);
 
     if (hasStartCodon && hasStopCodon){
@@ -376,8 +376,41 @@ function DNAtoProtein(dna){
 
     // AAATAGCGACTAGCTCCACTGAAACTTGG
 }
-console.log('DNAtoProtein: ' + JSON.stringify(DNAtoProtein('TACCATCATACTCAT')));  // Nr 3 codon = Stop-codon 
-console.log('DNAtoProtein: ' + JSON.stringify(DNAtoProtein('TACCATCATTACCAT')));  // Nr 3 codon = start-codon
+// console.log('DNAtoProtein: ' + JSON.stringify(DNAtoProtein('TACCATCATACTCAT')));  // Nr 3 codon = Stop-codon 
+// console.log('DNAtoProtein: ' + JSON.stringify(DNAtoProtein('TACCATCATTACCAT')));  // Nr 3 codon = start-codon
+
+
+// This function returns the diffrence (if any) between the codingStrand and templateStrand
+function getDnaResidue(codingStrand, templateStrand){
+    var TcodingStrand = complementaryDnaStrand(removeHtmlTags(templateStrand));
+    console.log('getDnaResidue - codingStrand : ' + codingStrand);
+    console.log('getDnaResidue - TcodingStrand: ' + TcodingStrand);
+    var dnaResidue = '';
+    if (codingStrand.length > TcodingStrand.length) {
+        dnaResidue = codingStrand.substr(TcodingStrand.length, codingStrand.length - TcodingStrand.length);
+    }
+    dnaResidue = complementaryDnaStrand(dnaResidue);
+    console.log('getDnaResidue - dnaResidue: ' + dnaResidue);
+    return dnaResidue;
+}
+// console.log('getDnaResidue: ' + getDnaResidue('CTTTGAACC', 'GAAACTTG'));
+
+
+
+function removeHtmlTags(str){
+    var start = str.indexOf('<');
+    var end;
+    while(start !== -1){
+        end = str.indexOf('>');
+        str = str.replace(str.substring(start, end+1), '');
+        start = str.indexOf('<');
+    }
+    return str;
+}
+console.log('removeHtmlTags: ' + removeHtmlTags('AAA<span class="start">TAC</span><span class="leucin">GAC</span><span class="methionin">TAC</span><span class="arginin">TCC</span><span class="stop">ACT</span>GAAACTTGG') );
+// AAATACGACTACTCCACTGAAACTTGG
+// AAATACGACTACTCCACTGAAACTTGG
+// AAATACGACTACTCCACTGAAACTTGG
 
 
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/setSelectionRange
@@ -398,7 +431,8 @@ $( document ).on('keyup', "#input", function(event){
     if (dna.length > 0){
         var dna_templateStr = complementaryDnaStrand(dna);
         var pObj = DNAtoProtein(dna_templateStr);
-        $('#userMsg').html(pObj.userMsg);
+        pObj.dna_templateStr_html = pObj.dna_templateStr_html + getDnaResidue(dna, pObj.dna_templateStr_html);  // This adds the dnaResidue to the templae string.
+        // $('#userMsg').html(pObj.userMsg);
         // $('#dna_templateStrand').html(dna_templateStr);   
         $('#dna_templateStrand').html(pObj.dna_templateStr_html);   
         $('#mRNA').html(pObj.mRNA_html);

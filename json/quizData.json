@@ -1,5 +1,5 @@
 {
-	"header" : "Mutation (eksplorativt objekt)",
+	"header" : "Mutation - eksplorativ",
 	"instruction" : "Herunder ser du et stykke dobbelt-strenget DNA, det mRNA som kan transskriberes fra DNA’et, samt det protein som dannes ved translation af mRNA’et. Du kan ændre i DNA’et ved at skrive i tekstfeltet, som viser den kodende DNA-streng. Prøv først at lege med det: Se hvad der sker med mRNA og protein, når du ændrer i DNA-strengen.",
 	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
 	"codingStrand_old": "AAATACGACTACTCCACTGAAACTTGG",
