@@ -214,7 +214,7 @@ function DNAtoProtein(dna){
     var mRNA_raw = mRNA;
 
     var index = mRNA.indexOf('AUG');                // Start codon "AUG" (in mRNA) <===> TAC (in DNA)
-    var mRNA_before = (index !== -1)? mRNA.slice(0,index) : '';          // Copy the mRNA sequence before the start codon.
+    window.mRNA_before = (index !== -1)? mRNA.slice(0,index) : '';          // Copy the mRNA sequence before the start codon.
     var mRNA_gene = '';
     var mRNA_after = '';                            // The mRNA sequence after the stop codon (if any).
     mRNA = (index !== -1)? mRNA.slice(index) : '';  // Return all the mRNA after (and including) the first start-codon "AUG". 
@@ -496,6 +496,11 @@ function ajustCaretPosition(pos, event) {
     console.log('ajustCaretPosition - posAjust: ' + posAjust);
     return posAjust;
 }
+
+
+function addAligmentSpaces(){
+    mRNA_before
+}  
 
 
 $( document ).on('keyup', "#input", function(event){    
