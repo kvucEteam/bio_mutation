@@ -190,13 +190,21 @@ function DNAstrTomRNAstr(dnaStr){
 console.log('DNAstrTomRNAstr("ACTGGACTACTGGACTGACT"): ' + DNAstrTomRNAstr('ACTGGACTACTGGACTGACT'));
 
 
-function mRNAstrToDNAstr(codon){
+function mRNAstrToDNAcodeStr(codon){
+    return codon.replace(/U/g, 'T'); 
+}
+console.log('mRNAstrToDNAcodeStr("AUGCUGAUGAGGUGACUUUGAACC"): ' + mRNAstrToDNAcodeStr('AUGCUGAUGAGGUGACUUUGAACC'));
+
+
+function mRNAstrToDNAtmplStr(codon){
     return codon.replace(/A/g, 'T').replace(/U/g, 'A').replace(/C/g, 'K').replace(/G/g, 'C').replace(/K/g, 'G');  // .replace(/&#39;/g, "'")  //g
 }
-console.log('mRNAstrToDNAstr("AUGCUGAUGAGGUGACUUUGAACC"): ' + mRNAstrToDNAstr('AUGCUGAUGAGGUGACUUUGAACC'));
+console.log('mRNAstrToDNAtmplStr("AUGCUGAUGAGGUGACUUUGAACC"): ' + mRNAstrToDNAtmplStr('AUGCUGAUGAGGUGACUUUGAACC'));
 
 
 function DNAtoProtein(dna){
+
+    dna = dna.replace(/ /g, '');    // Added 30-11-2016 - remove all spaces.
 
     console.log('DNAtoProtein - dna:  ' + dna);
 
@@ -213,7 +221,7 @@ function DNAtoProtein(dna){
     console.log('DNAtoProtein - mRNA 2: ' + mRNA);
 
 
-    var mRNA_gene_raw = '';
+    window.mRNA_gene_raw = '';
 
 
     var pObj = {    // pObj = "protein object"
@@ -244,7 +252,7 @@ function DNAtoProtein(dna){
     console.log('DNAtoProtein - codonArr: ' + JSON.stringify(codonArr));
     pObj.codon = codonArr;
 
-    var hasStartCodon = false;
+    window.hasStartCodon = false;
     var hasStopCodon = false;
     var namesHasBeenTrimmed = false;
 
@@ -260,7 +268,7 @@ function DNAtoProtein(dna){
 
             pObj.mRNA_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+codon+'</span>';
 
-            pObj.dna_templateStr_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+ mRNAstrToDNAstr(codon) +'</span>';
+            pObj.dna_templateStr_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+ mRNAstrToDNAtmplStr(codon) +'</span>';
             
             if (!hasStopCodon){
                 mRNA_gene_raw += codon;
@@ -296,8 +304,10 @@ function DNAtoProtein(dna){
             if ((hasStartCodon) && (!hasStopCodon)) { // These are placed here, so the stop-codon is NOT added:
                 // pObj.name += bioObj.tRNA[ca[0]][ca[1]][ca[2]].name+((codonArrLength > parseInt(n)+1)?',_':'');
                 // pObj.sym += bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym+((codonArrLength > parseInt(n)+1)?'-':'');
+
                 pObj.name += bioObj.tRNA[ca[0]][ca[1]][ca[2]].name+', ';
-                pObj.sym += bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym+'-';
+                // pObj.sym += bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym+'-';   // Commented out 1-12-2016
+                pObj.sym += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">' + bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym + '</span>'+'-';
                 pObj.symShort += bioObj.tRNA[ca[0]][ca[1]][ca[2]].symShort;
             }
 
@@ -361,7 +371,7 @@ function DNAtoProtein(dna){
     var mRNA_html_noMsg = mRNA_before + mRNA_gene + mRNA_after; // Add the mRNA sequence before the start codon and after the stop codon.
     console.log('DNAtoProtein - mRNA_html_noMsg: ' + mRNA_html_noMsg);
 
-    pObj.dna_templateStr_html = mRNAstrToDNAstr(mRNA_before) + pObj.dna_templateStr_html + mRNAstrToDNAstr(mRNA_after);
+    pObj.dna_templateStr_html = mRNAstrToDNAtmplStr(mRNA_before) + pObj.dna_templateStr_html + mRNAstrToDNAtmplStr(mRNA_after);
 
     // pObj.mRNA_html = mRNA_html_noMsg + pObj.userMsg; // Add the mRNA sequence before the start codon and after the stop codon.
     pObj.mRNA_html = mRNA_html_noMsg; // Add the mRNA sequence before the start codon and after the stop codon.
@@ -418,28 +428,111 @@ console.log('removeHtmlTags: ' + removeHtmlTags('AAA<span class="start">TAC</spa
 // input.setSelectionRange(2,5);
 
 
-$( document ).on('keyup', "#input", function(event){
+function addSeparationSpaces() {
+
+    var dna = $('#input').val().trim();
+    console.log('addSeparationSpaces - hasStartCodon: ' + hasStartCodon + ', mRNA_gene_raw: ' + mRNA_gene_raw);
+
+    var dnaCodeStr = mRNAstrToDNAcodeStr(mRNA_gene_raw);
+    console.log('addSeparationSpaces - dnaCodeStr: ' + dnaCodeStr);
+
+    var index = dna.indexOf(dnaCodeStr);
+    var dnaBefore = (index!==-1)? dna.substring(0, index) : '';
+    var dnaAfter = (index!==-1)? dna.substr(index + dnaCodeStr.length) : '';
+
+    // var spacedDnaCodeStr = dnaBefore + ' ';
+    var spacedDnaCodeStr = dnaBefore + ((dnaBefore.length > 0)? ' ' : '');
+    var l = dnaCodeStr.length;
+    var pos = 0;
+    while(pos+3 <= l){
+        spacedDnaCodeStr += dnaCodeStr.substr(pos, 3)+' ';
+        pos += 3;
+    }
+    spacedDnaCodeStr += dnaAfter;
+    console.log('addSeparationSpaces - spacedDnaCodeStr: ' + spacedDnaCodeStr);
+
+    console.log('addSeparationSpaces - dnaBefore: ' + dnaBefore + ', dnaAfter: ' + dnaAfter);
+
+    $('#input').val(spacedDnaCodeStr);
+
+    var dna_templateStrand = $('#dna_templateStrand').html().replace('<', ' <').replace(/></g, '> <');  // Replace the first "<" with " <" AND replace all "><" with "> <".
+    index = dna_templateStrand.lastIndexOf('>');
+    dna_templateStrand = (index!==-1)? dna_templateStrand.substring(0, index+1)+' '+dna_templateStrand.substr(index+1) : dna_templateStrand ;  // Replace the last ">" (if it exist) with "> ".
+    $('#dna_templateStrand').html(dna_templateStrand);
+
+    var mRNA = $('#mRNA').html().replace('<', ' <').replace(/></g, '> <');  // Replace the first "<" with " <" AND replace all "><" with "> <".
+    index = mRNA.lastIndexOf('>');
+    mRNA = (index!==-1)? mRNA.substring(0, index+1)+' '+mRNA.substr(index+1) : mRNA ;  // Replace the last ">" (if it exist) with "> ".
+    $('#mRNA').html(mRNA);
+}
+
+
+// RESOURSE: https://api.jquery.com/event.which/
+function ajustCaretPosition(pos, event) {
+    dna = $('#input').val().trim();
+    var charBeforeCaret = dna.substr(pos-1,1);
+    var charAfterCaret = dna.substr(pos+1,1);
+    var oneSpaceExist = (dna.split(' ').length == 2)? true : false ;
+
+    // event.which == 8  : backspace
+    // event.which == 32 : space
+    // event.which == 37 : left
+    // event.which == 39 : right
+    // event.which == 65 : a
+    // event.which == 67 : c
+    // event.which == 71 : g
+    // event.which == 84 : t
+
+    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved passed a codon-space, then prevent ajustment of caret. 
+
+    posAjust = ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) ? posAjust : posAjust - 1 ;  // Move the caret back if A, C, G or T has not been entered.
+
+    posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
+
+    posAjust = (oneSpaceExist) ? posAjust+1 : posAjust ;  // If the user starts from a clean input-field AND enters DNA bases BEFORE the start codon (then oneSpaceExist is true), then add one to the caret position.
+
+    posAjust = ((event.which == 8) && (charBeforeCaret == ' ')) ? posAjust-1 : posAjust ;  // If the user presses backspace AND there is a codon-space before the caret, then prevent ajustment of caret.
+    
+    console.log('ajustCaretPosition - posAjust: ' + posAjust);
+    return posAjust;
+}
+
+
+$( document ).on('keyup', "#input", function(event){    
     var Tdna = $(this).val().trim();
-    var dna = Tdna.match(/[acgtACGT]/g).join().replace(/,/g,''); // Only allow DNA bases letters in normal or capital form.
-    var charDiff = Tdna.length - dna.length;
-    var pos =  $(this).caret();  // Get the position of the caret to where the user altered a letter. SEE:  https://github.com/accursoft/caret
-    console.log('keyup - input - match - dna: ' + dna  + ', pos: ' + pos + ', charDiff: ' + charDiff);
-    dna = dna.toUpperCase();    // Alter all DNA bases letters to capital form.
-    $(this).val(dna);   // Alter the value in the text field
-    $(this).caret(pos - charDiff); // Set the position of the caret to where the user altered a letter. SEE:  https://github.com/accursoft/caret
-    console.log('keyup - input - dna: ' + dna);
-    if (dna.length > 0){
-        var dna_templateStr = complementaryDnaStrand(dna);
-        var pObj = DNAtoProtein(dna_templateStr);
-        pObj.dna_templateStr_html = pObj.dna_templateStr_html + getDnaResidue(dna, pObj.dna_templateStr_html);  // This adds the dnaResidue to the templae string.
-        // $('#userMsg').html(pObj.userMsg);
-        // $('#dna_templateStrand').html(dna_templateStr);   
-        $('#dna_templateStrand').html(pObj.dna_templateStr_html);   
-        $('#mRNA').html(pObj.mRNA_html);
-        $('#mRNA_extended').html(pObj.mRNA_html_extended);
-        $('#protein_name').text(pObj.name);
-        $('#protein_sym').text(pObj.sym);
-        $('#protein_symShort').text(pObj.symShort);
+    if (Tdna.length > 0){    // <-------  Added 1-12-2016
+        var dna = Tdna.match(/[acgtACGT]/g).join().replace(/,/g,''); // Only allow DNA bases letters in normal or capital form.
+        var charDiff = Tdna.length - dna.length;
+        var pos =  $(this).caret();  // Get the position of the caret to where the user altered a letter. SEE:  https://github.com/accursoft/caret
+        console.log('keyup - input - match - dna: ' + dna  + ', pos: ' + pos + ', charDiff: ' + charDiff);
+        dna = dna.toUpperCase();    // Alter all DNA bases letters to capital form.
+        $(this).val(dna);   // Alter the value in the text field
+        $(this).caret(pos - charDiff); // Set the position of the caret to where the user altered a letter. SEE:  https://github.com/accursoft/caret
+        console.log('keyup - input - dna: ' + dna);
+        if (dna.length > 0){
+            var dna_templateStr = complementaryDnaStrand(dna);
+            var pObj = DNAtoProtein(dna_templateStr);
+            pObj.dna_templateStr_html = pObj.dna_templateStr_html + getDnaResidue(dna, pObj.dna_templateStr_html);  // This adds the dnaResidue to the templae string.
+            // $('#userMsg').html(pObj.userMsg);
+            // $('#dna_templateStrand').html(dna_templateStr);   
+            $('#dna_templateStrand').html(pObj.dna_templateStr_html);   
+            $('#mRNA').html(pObj.mRNA_html);
+            $('#mRNA_extended').html(pObj.mRNA_html_extended);
+            $('#protein_name').text(pObj.name);
+            // $('#protein_sym').text(pObj.sym);
+            $('#protein_sym').html(pObj.sym);
+            $('#protein_symShort').text(pObj.symShort);
+
+            // Below is functionality regarding "spaces" between codons AND ajustment og caret-position:
+            addSeparationSpaces();
+            var ajust = ajustCaretPosition(pos, event);
+            $(this).caret(pos + ajust);
+        }
+    } else {
+        $('#dna_templateStrand').text(' ');  // <-------  Added 1-12-2016 : If the input field is empty, delete the content in all placeholders.
+        $('#mRNA').text(' ');
+        $('#protein_sym').text(' ');
+        $('#protein_name').text(' ');
     }
 });
 
@@ -476,7 +569,10 @@ $(document).ready(function() {
     $('#mRNA').html(pObj.mRNA_html);
     $('#mRNA_extended').html(pObj.mRNA_html_extended);
     $('#protein_name').text(pObj.name);
-    $('#protein_sym').text(pObj.sym);
+    // $('#protein_sym').text(pObj.sym);
+    $('#protein_sym').html(pObj.sym);
     $('#protein_symShort').text(pObj.symShort);
+
+    addSeparationSpaces();
 });
 

@@ -24,7 +24,7 @@
 .direction{
 	font-size: 1.1em;
 }
-#input{
+#input{ 
 	width: 80%;
 }
 .bioHolder span{
@@ -59,35 +59,28 @@
 	margin-left: 20px;
 	color: #e26060;
 }
-/*.alanin{ background-color: #FFFF00;} */       /* color from FR */
-/*.arginin{ background-color: #89BD7D;}*/       /* color from FR */
-/*.aspargin{ background-color: #00EF00;}*/		/* color from FR */
-.alanin{ background-color: inherit;}        
-.arginin{ background-color: inherit;}       
-.aspargin{ background-color: inherit;}		
-.asparginsyre{ background-color: inherit;}
-.cystein{ background-color: inherit;}
-.glutamin{ background-color: inherit;}
-.glutaminsyre{ background-color: inherit;}
-/*.glycin{ background-color: #FF9900;}*/		/* color from FR */
-.glycin{ background-color: inherit;}		
-.histidin{ background-color: inherit;}
-/*.isoleucin{ background-color: #A64D79;}*/		/* color from FR */
-.isoleucin{ background-color: inherit;}
-.leucin{ background-color: inherit;}
-/*.lysin{ background-color: #9900FF;}*/			/* color from FR */
-.lysin{ background-color: inherit;}	
-/*.methionin{ background-color: #F7009F;}*/     /* color from FR */
-.methionin{ background-color: inherit;}
-.fenylalanin{ background-color: inherit;}
-/*.prolin{ background-color: #CC4125;}*/		/* color from FR */
-/*.serin{ background-color: #00FFFF;}	*/		/* color from FR */
-.prolin{ background-color: inherit;}		
-.serin{ background-color: inherit;}			
-.threonin{ background-color: inherit;}
-.tryptofan{ background-color: inherit;}
-.tyrosin{ background-color: inherit;}
-.valin{ background-color: inherit;}
+
+#protein_sym span {border-radius: 10px; padding: 0px 5px;}
+#protein_sym .alanin{ background-color: #754277;}        
+#protein_sym .arginin{ background-color: #7CC424;}       
+#protein_sym .aspargin{ background-color: #156AFA;}		
+#protein_sym .asparginsyre{ background-color: #E4761F;}
+#protein_sym .cystein{ background-color: #2DFEFD;}
+#protein_sym .glutamin{ background-color: #FB101B;}
+#protein_sym .glutaminsyre{ background-color: #C5945F;}
+#protein_sym .glycin{ background-color: #CC68D4;}		
+#protein_sym .histidin{ background-color: #1FC690;}
+#protein_sym .isoleucin{ background-color: #E56455;}
+#protein_sym .leucin{ background-color: #C2F2A9;}
+#protein_sym .lysin{ background-color: #EF6CAF;}	
+#protein_sym .methionin{ background-color: #E6B4A8;}
+#protein_sym .fenylalanin{ background-color: #3C8213;}
+#protein_sym .prolin{ background-color: #978D71;}		
+#protein_sym .serin{ background-color: #2F7985;}			
+#protein_sym .threonin{ background-color: #82F8B3;}
+#protein_sym .tryptofan{ background-color: #999AD3;}
+#protein_sym .tyrosin{ background-color: #063E77;}
+#protein_sym .valin{ background-color: #F8F135;}
 
 .start{
 	background-color: #73f9a9;

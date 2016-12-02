@@ -166,6 +166,15 @@ var bioObj = {
         }
 }
 
+
+function goToNextQuestion() {
+    var preStr = '';
+    var btnHtml = (dObj.questionNo+1 < jsonData.quiz.length)? preStr+'<br><span class="goToNextQuestion btn btn-info">Næste spørgsmål</span>' : '' ;
+    console.log('goToNextQuestion - btnHtml: ' + btnHtml);
+    return btnHtml;
+}
+
+
 var dObj = {
 
 };
@@ -193,10 +202,10 @@ function DNAstrTomRNAstr(dnaStr){
 console.log('DNAstrTomRNAstr("ACTGGACTACTGGACTGACT"): ' + DNAstrTomRNAstr('ACTGGACTACTGGACTGACT'));
 
 
-function mRNAstrToDNAstr(codon){
+function mRNAstrToDNAtmplStr(codon){
     return codon.replace(/A/g, 'T').replace(/U/g, 'A').replace(/C/g, 'K').replace(/G/g, 'C').replace(/K/g, 'G');  // .replace(/&#39;/g, "'")  //g
 }
-console.log('mRNAstrToDNAstr("AUGCUGAUGAGGUGACUUUGAACC"): ' + mRNAstrToDNAstr('AUGCUGAUGAGGUGACUUUGAACC'));
+console.log('mRNAstrToDNAtmplStr("AUGCUGAUGAGGUGACUUUGAACC"): ' + mRNAstrToDNAtmplStr('AUGCUGAUGAGGUGACUUUGAACC'));
 
 
 function DNAtoProtein(dna){
@@ -263,7 +272,7 @@ function DNAtoProtein(dna){
 
             pObj.mRNA_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+codon+'</span>';
 
-            pObj.dna_templateStr_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+ mRNAstrToDNAstr(codon) +'</span>';
+            pObj.dna_templateStr_html += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">'+ mRNAstrToDNAtmplStr(codon) +'</span>';
             
             if (!hasStopCodon){
                 mRNA_gene_raw += codon;
@@ -364,7 +373,7 @@ function DNAtoProtein(dna){
     var mRNA_html_noMsg = mRNA_before + mRNA_gene + mRNA_after; // Add the mRNA sequence before the start codon and after the stop codon.
     console.log('DNAtoProtein - mRNA_html_noMsg: ' + mRNA_html_noMsg);
 
-    pObj.dna_templateStr_html = mRNAstrToDNAstr(mRNA_before) + pObj.dna_templateStr_html + mRNAstrToDNAstr(mRNA_after);
+    pObj.dna_templateStr_html = mRNAstrToDNAtmplStr(mRNA_before) + pObj.dna_templateStr_html + mRNAstrToDNAtmplStr(mRNA_after);
 
     // pObj.mRNA_html = mRNA_html_noMsg + pObj.userMsg; // Add the mRNA sequence before the start codon and after the stop codon.
     pObj.mRNA_html = mRNA_html_noMsg; // Add the mRNA sequence before the start codon and after the stop codon.
@@ -486,7 +495,7 @@ function checkForMadeAminoacidSequence(aminoacidSequence){
     var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
     var pObj = DNAtoProtein(dna_templateStr);
 
-    var generalErrorMsg = 'Læs opgave teksten, og brug "Den genetiske kode" til at danne den ønskede aminosyre sekvens.';
+    var generalErrorMsg = 'Læs opgave teksten, og brug "Den genetiske kode" til at danne den ønskede aminosyre sekvens.' + goToNextQuestion();
 
     if (answerDnaSquence.length == 0) {
         var HTML = 'Der er ikke intastet en sekvens for DNA!';
@@ -521,7 +530,7 @@ function checkForInsertedRestrictionEnzyme(restrictionEnzyme){
         }
     }
 
-    var generalErrorMsg = 'Brug "den genetiske kode" til finde ud af hvilke aminosyre '+restrictionEnzyme+' svare til. Find derefter denne sekvens af aminosyre i aminosyresekvensens navne, og find ud af hvilke stille mutationer du skal lave for at opnå den '+restrictionEnzyme;
+    var generalErrorMsg = 'Brug "den genetiske kode" til finde ud af hvilke aminosyre '+restrictionEnzyme+' svare til. Find derefter denne sekvens af aminosyre i aminosyresekvensens navne, og find ud af hvilke stille mutationer du skal lave for at opnå den '+restrictionEnzyme +  goToNextQuestion();
 
     if (mArr.length > 0){
         if (pObj.name == pObj_old.name){
@@ -548,7 +557,7 @@ function checkForInsertedStopCodon(codonLength){
     var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
     var pObj = DNAtoProtein(dna_templateStr);
 
-    var generalErrorMsg = 'Indsæt et stop codon efter '+codonLength+' codons. Se i "den genetiske kode" hvordan man laver et stop codon.'
+    var generalErrorMsg = 'Indsæt et stop codon efter '+codonLength+' codons. Se i "den genetiske kode" hvordan man laver et stop codon.' + goToNextQuestion();
 
     if (pObj.name.split(', ').length < codonLength){
         var HTML = 'Du har indsat et stop codon, men antallet af aminosyre er kun '+textNumber(pObj.name.split(', ').length)+', som er for kort.';
@@ -579,7 +588,7 @@ function checkForPointStopMutation(){
 
     console.log('checkForPointStopMutation - pObj.userMsg: ' + pObj.userMsg);
 
-    var generalErrorMsg = 'Du skal lave en punktmutation som skaber et stop codon. Brug "Den genetiske kode" til af finde ud af hvordan et stop codon ser ud. Gennemgå derefter DNA sekvensen i læserammen og find ud af hvor du kan ændre et codon til et stop codon.';
+    var generalErrorMsg = 'Du skal lave en punktmutation som skaber et stop codon. Brug "Den genetiske kode" til af finde ud af hvordan et stop codon ser ud. Gennemgå derefter DNA sekvensen i læserammen og find ud af hvor du kan ændre et codon til et stop codon.' + goToNextQuestion();
 
     var diff = answerDnaSquence.length - codingStrand.length;
 
@@ -641,7 +650,7 @@ function checkForFrameshiftMutation(subType){
 
     console.log('checkForFrameshiftMutation - pObj.userMsg: ' + pObj.userMsg);
 
-    var generalErrorMsg = 'Du skal finde ud af hvordan en frameshiftmutation forkommer via "insertion" eller "deletion". Ved "insertion" forstås at et ekstra nukleotid indsættets i læserammen. Ved "deletion" forstås at et nukleotid fjernes fra læserammen.';
+    var generalErrorMsg = 'Du skal finde ud af hvordan en frameshiftmutation forkommer via "insertion" eller "deletion". Ved "insertion" forstås at et ekstra nukleotid indsættets i læserammen. Ved "deletion" forstås at et nukleotid fjernes fra læserammen.' + goToNextQuestion();
 
     var diff = answerDnaSquence.length - codingStrand.length;
 
@@ -718,7 +727,7 @@ function checkForSilentMutation(){
     var dna_templateStr = complementaryDnaStrand(codingStrand);
     var pObj_old = DNAtoProtein(dna_templateStr);
 
-    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere en tilfældig aminosyre. Brug derefter "Den genetiske kode" til at finde ud af hvilket nukleotid der skal ændres for at opnå samme aminosyre.';
+    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere en tilfældig aminosyre. Brug derefter "Den genetiske kode" til at finde ud af hvilket nukleotid der skal ændres for at opnå samme aminosyre.' + goToNextQuestion();
     if (answerDnaSquence.length == codingStrand.length) {
         console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
         var answerDnaSquenceArr = answerDnaSquence.split('');
@@ -764,7 +773,7 @@ function checkForSilentMutation(){
 function checkForPointMutation(){
     var answerDnaSquence = $('#input').val();
     var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
-    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere hvor '+jsonData.quiz[dObj.questionNo].mutation.from.toLowerCase()+' er. Brug derefter "Den genetiske kode" til at finde ud af hvilket nukleotid der skal ændres for at opnå '+jsonData.quiz[dObj.questionNo].mutation.to.toLowerCase()+'.';
+    var generalErrorMsg = 'Brug "aminosyrersekvensen" forneden til at lokalisere hvor '+jsonData.quiz[dObj.questionNo].mutation.from.toLowerCase()+' er. Brug derefter "Den genetiske kode" til at finde ud af hvilket nukleotid der skal ændres for at opnå '+jsonData.quiz[dObj.questionNo].mutation.to.toLowerCase()+'.' + goToNextQuestion();
     if (answerDnaSquence.length == codingStrand.length) {
         console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
         var answerDnaSquenceArr = answerDnaSquence.split('');
@@ -925,6 +934,15 @@ console.log('removeHtmlTags: ' + removeHtmlTags('AAA<span class="start">TAC</spa
 // AAATACGACTACTCCACTGAAACTTGG
 
 
+
+$( document ).on('click', ".goToNextQuestion", function(event){
+    dObj.questionNo += 1;
+    if (dObj.questionNo < dObj.questionCounter){ 
+        poseQuestion();
+    }
+});
+
+
 $( document ).on('click', "#tryAgain", function(event){
      location.reload(); 
 });
@@ -1029,5 +1047,6 @@ $(document).ready(function() {
     initQuiz();
 
     poseQuestion();
+
 });
 
