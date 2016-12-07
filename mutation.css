@@ -60,11 +60,20 @@
 	color: #e26060;
 }
 
-#protein_sym span {border-radius: 10px; padding: 0px 5px;}
-#protein_sym .alanin{ background-color: #754277;}        
+/*#protein_name, #protein_sym {font-family: inherit;}	*/							/* <----- TLY wants this */
+/*#protein_sym span {border-radius: 10px; padding: 0px 5px;}*/      			    /* <----- TLY wants this */
+
+/*#protein_name {font-family: inherit;}*/											/* <----- WORKS IN ALL BROWSERS */
+/*#protein_sym span {border-radius: 10px; padding: 0px 0px;} */  					/* <----- WORKS IN ALL BROWSERS */
+
+#protein_name, #protein_sym {font-family: inherit;}									/* <----- TEST hat accommodates the wishes of FR and has the padding TLY wishes */
+/*#protein_sym span {border-radius: 10px; padding: 0px 5px; font-size: 0.85em;}*/		/* <----- TEST hat accommodates the wishes of FR and has the padding TLY wishes */
+#protein_sym .aminoAcid {border-radius: 10px; padding: 0px 5px; font-size: 0.85em;}		/* <----- TEST hat accommodates the wishes of FR and has the padding TLY wishes */
+
+#protein_sym .alanin{ background-color: #754277;  color: #FFF;}        
 #protein_sym .arginin{ background-color: #7CC424;}       
-#protein_sym .aspargin{ background-color: #156AFA;}		
-#protein_sym .asparginsyre{ background-color: #E4761F;}
+#protein_sym .asparagin{ background-color: #156AFA;  color: #FFF;}		
+#protein_sym .asparaginsyre{ background-color: #E4761F;}
 #protein_sym .cystein{ background-color: #2DFEFD;}
 #protein_sym .glutamin{ background-color: #FB101B;}
 #protein_sym .glutaminsyre{ background-color: #C5945F;}
@@ -74,12 +83,12 @@
 #protein_sym .leucin{ background-color: #C2F2A9;}
 #protein_sym .lysin{ background-color: #EF6CAF;}	
 #protein_sym .methionin{ background-color: #E6B4A8;}
-#protein_sym .fenylalanin{ background-color: #3C8213;}
+#protein_sym .fenylalanin{ background-color: #3C8213; color: #FFF;}
 #protein_sym .prolin{ background-color: #978D71;}		
-#protein_sym .serin{ background-color: #2F7985;}			
+#protein_sym .serin{ background-color: #2F7985;  color: #FFF;}			
 #protein_sym .threonin{ background-color: #82F8B3;}
 #protein_sym .tryptofan{ background-color: #999AD3;}
-#protein_sym .tyrosin{ background-color: #063E77;}
+#protein_sym .tyrosin{ background-color: #063E77;  color: #FFF;}
 #protein_sym .valin{ background-color: #F8F135;}
 
 .start{

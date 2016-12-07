@@ -1,0 +1,12 @@
+{
+	"header" : "Mutation - punktmutationer",
+	"instruction" : "Her ser du et stykke dobbeltstrenget DNA. Nedenunder ses den mRNA-sekvens som DNAet transskriberes til, og nederst kan du se aminosyrerækkefølgen som dannes ved translation. Du kan ændre i DNAet ved at skrive i tekstfeltet, som viser den kodende DNA-streng.",
+	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
+	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
+	"quiz" : [
+		{
+			"mutationGenerationType" : "randomPointMutationQuestions",
+			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA"
+		}
+	]
+}

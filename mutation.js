@@ -122,8 +122,8 @@ var bioObj = {
                     G: {name: "Threonin", sym: "Thr", symShort: "T"}
                 },
                 A: {
-                    U: {name: "Aspargin", sym: "Asn", symShort: "N"},
-                    C: {name: "Aspargin", sym: "Asn", symShort: "N"},
+                    U: {name: "Asparagin", sym: "Asn", symShort: "N"},
+                    C: {name: "Asparagin", sym: "Asn", symShort: "N"},
                     A: {name: "Lysin", sym: "Lys", symShort: "K"},
                     G: {name: "Lysin", sym: "Lys", symShort: "K"}
                 },
@@ -148,8 +148,8 @@ var bioObj = {
                     G: {name: "Alanin", sym: "Ala", symShort: "A"}
                 },
                 A: {
-                    U: {name: "Asparginsyre", sym: "Asp", symShort: "D"},
-                    C: {name: "Asparginsyre", sym: "Asp", symShort: "D"},
+                    U: {name: "Asparaginsyre", sym: "Asp", symShort: "D"},
+                    C: {name: "Asparaginsyre", sym: "Asp", symShort: "D"},
                     A: {name: "Glutaminsyre", sym: "Glu", symShort: "E"},
                     G: {name: "Glutaminsyre", sym: "Glu", symShort: "E"}
                 },
@@ -307,13 +307,15 @@ function DNAtoProtein(dna){
 
                 pObj.name += bioObj.tRNA[ca[0]][ca[1]][ca[2]].name+', ';
                 // pObj.sym += bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym+'-';   // Commented out 1-12-2016
-                pObj.sym += '<span class="'+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">' + bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym + '</span>'+'-';
+                pObj.sym += '<span class="aminoAcid '+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">' + bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym + '</span>'+'-';
+                // pObj.sym += '<span class="aminoAcid '+((('AUG'.indexOf(codon)!==-1) && (!hasStartCodon))?'start':bioObj.tRNA[ca[0]][ca[1]][ca[2]].name.toLowerCase())+((('UGA_UAA_UAG'.indexOf(codon)!==-1) && (!hasStopCodon))?'stop':'')+'">' + bioObj.tRNA[ca[0]][ca[1]][ca[2]].sym + '</span>'+'<span class="hyphen">-</span>';
                 pObj.symShort += bioObj.tRNA[ca[0]][ca[1]][ca[2]].symShort;
             }
 
             if ((hasStartCodon) && (hasStopCodon) && (!namesHasBeenTrimmed)){
                 pObj.name = pObj.name.slice(0,-2);  // Trim away unwanted space in the end of the string.
                 pObj.sym = pObj.sym.slice(0,-1);  
+                // pObj.sym = pObj.sym.slice(0,-('<span class="hyphen">-</span>'.length)); 
                 namesHasBeenTrimmed = true;
 
                 break; // Break is needed here for: (1) pObj.dna_templateStr_html to ONLY bed the gene, and (2) for pObj.name and pObj.sym to be correctly trimmed.
@@ -428,7 +430,7 @@ console.log('removeHtmlTags: ' + removeHtmlTags('AAA<span class="start">TAC</spa
 // input.setSelectionRange(2,5);
 
 
-function addSeparationSpaces() {
+function addSeparationSpaces() {    // MARK 2-12-2016
 
     var dna = $('#input').val().trim();
     console.log('addSeparationSpaces - hasStartCodon: ' + hasStartCodon + ', mRNA_gene_raw: ' + mRNA_gene_raw);
@@ -499,11 +501,62 @@ function ajustCaretPosition(pos, event) {
 
 
 function addAligmentSpaces(){
-    mRNA_before
+    var spaces = (mRNA_before.length > 0)? '' : '';
+    for (var i = 0; i < mRNA_before.length; i++) {
+        spaces += '';      // &nbsp;
+    };
+    console.log('addAligmentSpaces - spaces: _' + spaces + '_');
+    return spaces;
 }  
 
+function align_protein_sym(){
+    if ($('.start').length > 0){
+        var posParent = $('.start').parent().offset();
+        var posChild = $('.start').offset();
+        var diff = posChild.left - posParent.left - 3;
+        console.log('align_protein_sym - posParent: ' + posParent + ', posChild: ' + posChild + ', diff: ' + diff);
+        $('#protein_sym .methionin:first').css({'margin-left' : diff});
+    }
+}
 
-$( document ).on('keyup', "#input", function(event){    
+
+function animateChanges() {
+    var aminoSequence = $('#protein_sym').html();
+    console.log('animateChanges - aminoSequence: ' + aminoSequence);
+
+    if (typeof(aminoSequenceMem)==='undefined') {
+        window.aminoSequenceMem = '';
+    }
+    
+    if (aminoSequence != aminoSequenceMem) {
+
+        var aminoSequenceMemArr = aminoSequenceMem.split('-'); // REAL
+        // var aminoSequenceMemArr = aminoSequence.split('-'); // TEST
+        // var aminoSequenceMemArr = aminoSequenceMem.split('<span class="hyphen">-</span>'); // REAL
+        // var aminoSequenceMemArr = aminoSequence.split('<span class="hyphen">-</span>');       // TEST
+        console.log('animateChanges - aminoSequenceMemArr: ' + aminoSequenceMemArr);
+
+        $( "#protein_sym .aminoAcid" ).each(function( index, element ) {
+            var aminoAcid = $(element)[0].outerHTML;
+            // if ((typeof(aminoAcidArr[index])!=='undefined') && (aminoAcidArr != aminoAcidArr[index])) {
+            console.log('animateChanges - aminoAcid: ' + aminoAcid + ', aminoSequenceMemArr['+index+']: ' + aminoSequenceMemArr[index] + ', bool: ' + ((aminoAcid != aminoSequenceMemArr[index])?true:false) );
+            
+            // if ((typeof(aminoSequenceMemArr[index])!=='undefined') && (aminoAcid != aminoSequenceMemArr[index])) {
+            if ((aminoAcid != aminoSequenceMemArr[index])) {
+
+                $(element).after(aminoAcid);
+                $(element).next().hide().fadeIn('slow');
+                $(element).remove();
+                console.log('animateChanges XXX - aminoAcid: ' + aminoAcid + ', aminoSequenceMemArr['+index+']: ' + aminoSequenceMemArr[index] + ', bool: ' + ((aminoAcid != aminoSequenceMemArr[index])?true:false) );
+            }
+        });
+
+        aminoSequenceMem = aminoSequence;
+    }
+}
+
+
+$( document ).on('keyup', "#input", function(event){    // MARK 06-12-2016
     var Tdna = $(this).val().trim();
     if (Tdna.length > 0){    // <-------  Added 1-12-2016
         var dna = Tdna.match(/[acgtACGT]/g).join().replace(/,/g,''); // Only allow DNA bases letters in normal or capital form.
@@ -528,10 +581,14 @@ $( document ).on('keyup', "#input", function(event){
             $('#protein_sym').html(pObj.sym);
             $('#protein_symShort').text(pObj.symShort);
 
+            animateChanges();
+
             // Below is functionality regarding "spaces" between codons AND ajustment og caret-position:
             addSeparationSpaces();
             var ajust = ajustCaretPosition(pos, event);
             $(this).caret(pos + ajust);
+
+            align_protein_sym();
         }
     } else {
         $('#dna_templateStrand').text(' ');  // <-------  Added 1-12-2016 : If the input field is empty, delete the content in all placeholders.
@@ -578,6 +635,10 @@ $(document).ready(function() {
     $('#protein_sym').html(pObj.sym);
     $('#protein_symShort').text(pObj.symShort);
 
+    animateChanges();
+
     addSeparationSpaces();
+
+    align_protein_sym();
 });
 
