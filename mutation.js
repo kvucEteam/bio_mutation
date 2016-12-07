@@ -485,15 +485,23 @@ function ajustCaretPosition(pos, event) {
     // event.which == 71 : g
     // event.which == 84 : t
 
-    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved passed a codon-space, then prevent ajustment of caret. 
+    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved passed a codon-space, then prevent ajustment of caret. 
+    if ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39)) {console.log('ajustCaretPosition - A')}
 
     posAjust = ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) ? posAjust : posAjust - 1 ;  // Move the caret back if A, C, G or T has not been entered.
+    if ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) {console.log('ajustCaretPosition - B')}
 
     posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
+    if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - C')}
 
     posAjust = (oneSpaceExist) ? posAjust+1 : posAjust ;  // If the user starts from a clean input-field AND enters DNA bases BEFORE the start codon (then oneSpaceExist is true), then add one to the caret position.
+    if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - D')}
 
     posAjust = ((event.which == 8) && (charBeforeCaret == ' ')) ? posAjust-1 : posAjust ;  // If the user presses backspace AND there is a codon-space before the caret, then prevent ajustment of caret.
+    if ((event.which == 8) && (charBeforeCaret == ' ')) {console.log('ajustCaretPosition - E')}
+
+    posAjust = ((oneSpaceExist) && (event.which == 8)) ? posAjust-1 : posAjust ;  // This corrects the error in consol.log "D" above, when the caret is moved backwards by backspace AND there are two codons left (inc start-codon).
+    if ((oneSpaceExist) && (event.which == 8)) {console.log('ajustCaretPosition - G')}
     
     console.log('ajustCaretPosition - posAjust: ' + posAjust);
     return posAjust;
