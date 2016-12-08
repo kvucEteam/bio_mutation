@@ -527,12 +527,17 @@ function checkForMadeAminoacidSequence(aminoacidSequence){
         var HTML = 'Der er ikke indtastet en DNA-sekvens!';
         UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
     } else {
-        if (pObj.sym == aminoacidSequence) {
-            var HTML = '';
-            UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
-        } else {
-            var HTML = 'Den indtastede DNA-sekvens giver ikke den rigtige aminosyrerækkefølge!';
-            UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        console.log('checkForMadeAminoacidSequence - pObj.sym: ' + pObj.sym);
+        if (pObj.sym.length > 0) {
+            var answerAminoSequence = pObj.sym.match(/>(\w+)</g).join('-').replace(/>/g, '').replace(/</g, '');
+            console.log('checkForMadeAminoacidSequence - pObj.sym: ' + pObj.sym + ', answerAminoSequence: ' + answerAminoSequence);
+            if (answerAminoSequence == aminoacidSequence) {
+                var HTML = '';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+            } else {
+                var HTML = 'Den indtastede DNA-sekvens giver ikke den rigtige aminosyrerækkefølge!';
+                UserMsgBox("body", '<h3>Du har svaret <span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+            }
         }
     }
 }
@@ -1351,7 +1356,7 @@ $(document).ready(function() {
     $('#instruction').prepend(instruction(jsonData.instruction));  
     // $('#explanation').prepend(explanation(jsonData.explanation));
 
-    dObj.questionNo = 9;  // Set the first quiz
+    dObj.questionNo = 0;  // Set the first quiz
     dObj.isAnswerCorrect = null;
 
     makeQuizes();  // This makes random quizes if they ar present.
