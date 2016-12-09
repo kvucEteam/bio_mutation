@@ -88,7 +88,10 @@
 #protein_sym .isoleucin{ background-color: #E56455;}
 #protein_sym .leucin{ background-color: #C2F2A9;}
 #protein_sym .lysin{ background-color: #EF6CAF;}	
-#protein_sym .methionin{ background-color: #E6B4A8;}
+#protein_sym .methionin{ 
+	/*background-color: #E6B4A8;*/
+	background-color: #73f9a9;
+}
 #protein_sym .fenylalanin{ background-color: #3C8213; color: #FFF;}
 #protein_sym .prolin{ background-color: #978D71;}		
 #protein_sym .serin{ background-color: #2F7985;  color: #FFF;}			
