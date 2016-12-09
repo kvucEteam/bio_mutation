@@ -1,5 +1,5 @@
 {
-	"header" : "Mutation - restriktionsenzymet BamHI",
+	"header" : "Mutation - restriktionsenzymer",
 	"instruction" : "Her ser du et stykke dobbeltstrenget DNA. Nedenunder ses den mRNA-sekvens som DNAet transskriberes til, og nederst kan du se aminosyrerækkefølgen som dannes ved translation. Du kan ændre i DNAet ved at skrive i tekstfeltet, som viser den kodende DNA-streng.",
 	"explanation" : "Kursist forklaring... Lorem ipsum dolor sit amet, in sed a, non in magna, exercitation fringilla taciti a wisi, velit vestibulum eget suspendisse diam sagittis curabitur. Vulputate ultricies, lorem id sit tincidunt sapien, erat nostra nibh, nec nonummy tempor, mus eget ultricies suscipit in turpis. Ornare lacinia taciti leo pharetra blandit odio, a maecenas in ligula commodo phasellus pharetra, quisque commodo mauris ut, vel vivamus sodales dolor. ",
 	"codingStrand": "TTTATGCTGATGAGGTGACTTTGAACC",
@@ -9,6 +9,12 @@
 			"restrictionEnzyme" : "GGATCC",
 			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
 			"question": "Restriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen."
+		},
+		{
+			"mutationType" : "insertedRestrictionEnzyme",
+			"restrictionEnzyme" : "AAGCTT",
+			"codingStrand": "ATGGGATCTCGAAGTTTTGGGATTCGGAACTCTAAGCCATGA",
+			"question": "Restriktionsenzymet HindIII genkender sekvensen AAGCTT. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen."
 		}
 	]
 }		
