@@ -6,7 +6,7 @@
 	"quiz" : [
 		{
 			"mutationType" : "pointMutation",
-			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
+			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
 			"question": "Lav en punktmutation som ændrer aminosyren alanin til valin",
 			"mutation":{"from":"Alanin", "to":"Valin"}
 		},
