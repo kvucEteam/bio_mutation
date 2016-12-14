@@ -419,7 +419,7 @@ function initQuiz(){
 
 function updateQuestionAndCounter(){
     console.log('updateQuestionAndCounter - dObj.questionNo: ' + dObj.questionNo + ', jsonData.quiz['+dObj.questionNo+']: ' + JSON.stringify(jsonData.quiz[dObj.questionNo]));
-    $('#question').html('<h3 id="questionCounter">'+String(dObj.questionNo+1)+'/'+dObj.questionCounter+'</h3> <span id="goToPreviousQuestionBtn" class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </span> <span id="goToNextQuestionBtn" class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> </span> <h3 class="questionText">'+jsonData.quiz[dObj.questionNo].question + '</h3>');
+    $('#question').html('<span id="goToPreviousQuestionBtn" class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </span> <span id="goToNextQuestionBtn" class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> </span> <h3 id="questionCounter">'+String(dObj.questionNo+1)+'/'+dObj.questionCounter+':</h3> <h3 class="questionText">'+jsonData.quiz[dObj.questionNo].question + '</h3>');
 }
 
 

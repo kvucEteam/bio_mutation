@@ -80,6 +80,11 @@
 	top: -5px;
 }
 
+#question .btn {
+	margin-right: 5px;
+	padding-left: 7px;
+	padding-right: 7px; 
+}
 
 /*#protein_name, #protein_sym {font-family: inherit;}	*/							/* <----- TLY wants this */
 /*#protein_sym span {border-radius: 10px; padding: 0px 5px;} */     			    /* <----- TLY wants this */
