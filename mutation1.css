@@ -74,7 +74,7 @@
 	margin-left: 5px;
 }
 
-#question .btn-info {
+#question .btn-primary {
 	margin-right: 10px;
 	position: relative;
 	top: -5px;
@@ -84,6 +84,13 @@
 	margin-right: 5px;
 	padding-left: 7px;
 	padding-right: 7px; 
+}
+
+#UserMsgBox #question {
+	display: inline;
+	margin-left: 3px;
+    position: relative;
+    top: -5px;
 }
 
 /*#protein_name, #protein_sym {font-family: inherit;}	*/							/* <----- TLY wants this */
@@ -125,3 +132,4 @@
 .stop{
 	background-color: #e26060;
 }
+
