@@ -476,7 +476,8 @@ function ajustCaretPosition(pos, event) {
     var charAfterCaret = dna.substr(pos+1,1);
     var oneSpaceExist = (dna.split(' ').length == 2)? true : false ;
 
-    // event.which == 8  : backspace
+    // event.which == 46 : forward delete
+    // event.which == 8  : backward delete
     // event.which == 32 : space
     // event.which == 37 : left
     // event.which == 39 : right
@@ -485,13 +486,13 @@ function ajustCaretPosition(pos, event) {
     // event.which == 71 : g
     // event.which == 84 : t
 
-    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved passed a codon-space, then prevent ajustment of caret. 
+    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved past/passed a codon-space, then prevent ajustment of caret. 
     if ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39)) {console.log('ajustCaretPosition - A')}
 
     posAjust = ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) ? posAjust : posAjust - 1 ;  // Move the caret back if A, C, G or T has not been entered.
     if ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) {console.log('ajustCaretPosition - B')}
 
-    posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
+    posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)  || (event.which == 46)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
     if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - C')}
 
     posAjust = (oneSpaceExist) ? posAjust+1 : posAjust ;  // If the user starts from a clean input-field AND enters DNA bases BEFORE the start codon (then oneSpaceExist is true), then add one to the caret position.

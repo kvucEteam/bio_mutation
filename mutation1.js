@@ -44,7 +44,10 @@
 // AAATACGACTACTCCACTGAAACTTGG
 // UUUAUGCUGAUGAGGUGACUUUGAACC
 
+// "codingStrand_hvepsegift" : "ATGTCCCTACTGAGTCTAATACGAAAACTAATCTATTGA"
 
+
+// Lorem ipsum dolor sit 12345678 praesent proin imperdiet arcu eget odio sit, eleifend nam nunc hac sunt, tellus venenatis et consequat vestibulum quis non. Orci lorem ipsum diam rhoncus sollicitudin, ut ipsum est in, justo in, tellus pede lorem. Sed nisl sodales aliquam nunc aliquam, facere ac, maecenas cursus, lacus urna tortor ut in sit, lectus etiam ut laoreet. Mus porttitor erat, diam praesent maecenas tellus ultricies amet et, gravida magna lectus suspendisse vitae, mattis nulla, dictumst semper imperdiet accumsan. Magnis turpis dapibus sodales, justo nulla urna sodales a metus sollicitudin, lorem lorem eu orci convallis, eget diam ut in pellentesque nulla at. Ex blandit, est et quam vivamus scelerisque. Morbi vel, in proin facilisis ante viverra dolor pharetra, nunc metus lorem donec et in, curabitur nunc velit, ipsum vitae commodi sollicitudin ut lectus odio. Sollicitudin posuere felis nunc, vitae congue vel dictum sed magna, est vivamus, eget at qui id laoreet curabitur ultrices. Augue enim augue ac urna, commodi porttitor blandit erat vestibulum tempor at, quia risus ultrices ut congue, lorem sem molestie metus augue mi consequat, nullam turpis. Quia tristique consequuntur fermentum, nec egestas sodales mollis, eu tellus sit habitasse, vitae taciti a. Tellus vulputate, id velit. Eget quis donec sit vel, interdum mauris massa aliquam.
 
 
 var bioObj = {
@@ -247,6 +250,7 @@ function DNAtoProtein(dna){
         mRNA: mRNA,
         mRNA_html: '',
         mRNA_html_extended: '',
+        mRNA_gene_raw: '',
         dna_templateStr_html: '',
         codon: null,
         name: '',
@@ -272,7 +276,7 @@ function DNAtoProtein(dna){
     pObj.codon = codonArr;
 
     window.hasStartCodon = false;
-    var hasStopCodon = false;
+    window.hasStopCodon = false;
     var namesHasBeenTrimmed = false;
 
     for (var n in codonArr){
@@ -291,6 +295,7 @@ function DNAtoProtein(dna){
             
             if (!hasStopCodon){
                 mRNA_gene_raw += codon;
+                pObj.mRNA_gene_raw += codon;
             }
 
             if ((typeof(bioObj.tRNA[ca[0]][ca[1]][ca[2]].codonAction)!=='undefined') && (bioObj.tRNA[ca[0]][ca[1]][ca[2]].codonAction.toLowerCase() == 'stop')){
@@ -433,7 +438,6 @@ function findStrDiff(strA, strB){
 
     var strAarr = strA.split('');
     var strBarr = strB.split('');
-    console.log('findStrDiff: \nstrAarr: ' + strAarr + '\nstrBarr: ' + strBarr);
 
     var shortStrArr = (strAarr.length >= strBarr.length)? strBarr : strAarr;
     var mArr = [];
@@ -442,6 +446,8 @@ function findStrDiff(strA, strB){
             mArr.push(n);
         }
     }
+    console.log('findStrDiff: \nstrAarr: ' + strAarr + '\nstrBarr: ' + strBarr + '\nmArr: ' + JSON.stringify(mArr));
+
     return mArr;
 }
 
@@ -825,6 +831,19 @@ function checkForFrameshiftMutation(subType){
 
 
 function checkForSilentMutation(){
+
+    //===================   NEW   ===================
+
+    var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+    var dna_templateStr = complementaryDnaStrand(codingStrand);
+    var pObj_old = DNAtoProtein(dna_templateStr);
+
+    var answerDnaSquence = $('#input').val().replace(/ /g, '');
+    var Tdna_templateStr = complementaryDnaStrand(answerDnaSquence);
+    var TpObj = DNAtoProtein(Tdna_templateStr);
+
+    //===============================================
+
     var answerDnaSquence = $('#input').val().replace(/ /g, '');
     var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
 
@@ -832,8 +851,10 @@ function checkForSilentMutation(){
     var pObj_old = DNAtoProtein(dna_templateStr);
 
     var generalErrorMsg = 'Vælg et tilfældigt codon. Brug derefter "Den genetiske kode" til at finde ud af hvilke nukleotider der kan ændres uden at ændre aminosyren.' + tryAgainAndgoToNextQuestionBtns();
-    if (answerDnaSquence.length == codingStrand.length) {
-        console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
+    // if (answerDnaSquence.length == codingStrand.length) {
+    if (findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw).length > 0) { // if the gene has NOT changed, then...
+        console.log('checkForSilentMutation - A1');
+        console.log('checkForSilentMutation - DNA har ikke ændret længde - OK');
         var answerDnaSquenceArr = answerDnaSquence.split('');
         var codingStrandArr = codingStrand.split('');
         var mArr = [];
@@ -843,6 +864,7 @@ function checkForSilentMutation(){
             }
         }
         if (mArr.length == 0){
+            console.log('checkForSilentMutation - A2');
             console.log('checkForSilentMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
             var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
             UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
@@ -850,34 +872,47 @@ function checkForSilentMutation(){
             setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
         }
         if (mArr.length == 1){
+            console.log('checkForSilentMutation - A3');
             console.log('checkForSilentMutation - punktmutation er lavet!');
             var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
             var pObj = DNAtoProtein(dna_templateStr);
             console.log('checkForSilentMutation - pObj_old.name: ' + pObj_old.name + ', pObj.name: ' + pObj.name);
             if (pObj_old.name == pObj.name) {
+                console.log('checkForSilentMutation - A4');
                 
-                var HTML = '';
-                UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>' + trySameQuestionAgain());
+                // var HTML = '';
+                // UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>' + trySameQuestionAgain());
 
-                setAnswerMem(true, HTML);
+                // setAnswerMem(true, HTML);
                 
-                // if (typeof(jsonData.quiz[dObj.questionNo].mutation)!=='undefined') {  // Only IF the "from" AND "to" properties are defined, then specific feedback is given...
-                //     var checkObj = checkAminoacidSequence();
-                //     if (checkObj.correctPointMutation) {
-                //         var HTML = '';
-                //         UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
-                //     } else {
-                //         console.log('checkForPointMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
+                if (typeof(jsonData.quiz[dObj.questionNo].mutation)!=='undefined') {  // Only IF the "from" AND "to" properties are defined, then specific feedback is given...
+                    console.log('checkForSilentMutation - A7');
+                    var checkObj = checkAminoacidSequence();
+                    if (checkObj.correctPointMutation) {
+                        console.log('checkForSilentMutation - A8');
+                        var HTML = '';
+                        UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+
+                        setAnswerMem(true, HTML);
+                    } else {
+                        console.log('checkForSilentMutation - A9');
+                        console.log('checkForPointMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
                         
-                //         checkObj.errMsg = 'Du har lavet en stille mutation, men det er ikke i det rigtige codon.';
-                //         UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+checkObj.errMsg+'<br>'+generalErrorMsg+'</p>');
-                //     }
-                // } else {
-                //     var HTML = '';
-                //     UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
-                // }
+                        checkObj.errMsg = 'Du har lavet en stille mutation, men det er ikke i det rigtige codon.';
+                        UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+checkObj.errMsg+'<br>'+generalErrorMsg+'</p>');
+
+                        setAnswerMem(false, HTML);
+                    }
+                } else {
+                    console.log('checkForSilentMutation - A10');
+                    var HTML = '';
+                    UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
+
+                    setAnswerMem(true, HTML);
+                }
 
             } else {
+                console.log('checkForSilentMutation - A5');
                 console.log('checkForSilentMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
                 var HTML = 'Du har ændret en aminosyre, så det er ikke en stille mutation.';
                 UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
@@ -886,6 +921,7 @@ function checkForSilentMutation(){
             }
         }
         if (mArr.length > 1){
+            console.log('checkForSilentMutation - A6');
             console.log('checkForSilentMutation - flere punktmutationer er lavet!');
             var HTML = 'Flere punktmutationer er lavet - du skal kun lave en!';
             UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
@@ -893,20 +929,54 @@ function checkForSilentMutation(){
             setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
         }
     } else {
-        console.log('checkForSilentMutation - DNA har ændret længde');
-        var HTML = 'DNA har ændret længde - du skal lave en stille mutation som ikke ændrer længden!';
-        UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        console.log('checkForPointMutation - A11');
 
-        setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+        // console.log('checkForSilentMutation - DNA har ændret længde');
+        // var HTML = 'DNA har ændret længde - du skal lave en stille mutation som ikke ændrer længden!';
+        // UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+        // setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+
+        console.log('checkForPointMutation: \nmRNA_gene_raw new: ' + TpObj.mRNA_gene_raw + '\nmRNA_gene_raw old: ' + pObj_old.mRNA_gene_raw);
+        // if (findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw).length == 0) { // if the gene has NOT changed, then...
+        if (answerDnaSquence.length == codingStrand.length) { 
+            console.log('checkForPointMutation - A3');
+            console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+            var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
+            UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+            setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+        } else {
+            console.log('checkForPointMutation - A4');
+            // console.log('checkForPointMutation - DNA har ændret længde!');
+            // var HTML = 'DNAet har ændret længde. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) som ikke ændrer længden på DNAet!';
+            // UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+            // setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+
+            console.log('checkForPointMutation - DNA har ændret længde!');
+            var HTML = 'DNAet har ændret længde UDEN for genet, dvs. uden for start- og stop-sekvenserne i DNAet. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) inde i gensekvensen som ikke ændrer længden på DNAet!';
+            UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+            setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+        }
     }
 }
 
 
 function checkForPointMutation(){
-    var answerDnaSquence = $('#input').val().replace(/ /g, '');
     var codingStrand = jsonData.quiz[dObj.questionNo].codingStrand.toUpperCase();
+    var dna_templateStr = complementaryDnaStrand(codingStrand);
+    var pObj_old = DNAtoProtein(dna_templateStr);
+
+    var answerDnaSquence = $('#input').val().replace(/ /g, '');
+    var Tdna_templateStr = complementaryDnaStrand(answerDnaSquence);
+    var TpObj = DNAtoProtein(Tdna_templateStr);
+
     var generalErrorMsg = 'Brug "aminosyresekvensen" forneden til at lokalisere hvor '+jsonData.quiz[dObj.questionNo].mutation.from.toLowerCase()+' er. Brug derefter "Den genetiske kode" til at finde ud af hvilket nukleotid der skal ændres for at opnå '+jsonData.quiz[dObj.questionNo].mutation.to.toLowerCase()+'.' + tryAgainAndgoToNextQuestionBtns();
-    if (answerDnaSquence.length == codingStrand.length) {
+    // if (answerDnaSquence.length == codingStrand.length) { 
+    if (findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw).length > 0) { // if the gene has NOT changed, then...
+        console.log('checkForPointMutation - A1');
         console.log('checkForPointMutation - DNA har ikke ændret længde - OK');
         var answerDnaSquenceArr = answerDnaSquence.split('');
         var codingStrandArr = codingStrand.split('');
@@ -916,7 +986,12 @@ function checkForPointMutation(){
                 mArr.push(n);
             }
         }
+
+        var mArr = findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw); // NEW 16/12-2016
+
+        console.log('checkForPointMutation - mArr: ' + JSON.stringify(mArr));
         if (mArr.length == 0){
+            console.log('checkForPointMutation - A5');
             console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
             var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
             UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
@@ -942,7 +1017,9 @@ function checkForPointMutation(){
         //     var HTML = 'Flere punktmutationer er lavet - du skal kun lave en!';
         //     UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
         // }
-        if ((mArr.length == 1) || (mArr.length == 2)){                              // <-------- 16-11-2016 added - Teachers wish to check for one or two point mutations instead of only one
+        // if ((mArr.length == 1) || (mArr.length == 2)){              // <-------- 16-11-2016 added - Teachers wish to check for one or two point mutations instead of only one
+        if (mArr.length == 1){                            // <-------- 16-12-2016 added - Altered back, since checking for one is not really relevant
+            console.log('checkForPointMutation - A6');
             console.log('checkForPointMutation - punktmutation er lavet!');
             var dna_templateStr = complementaryDnaStrand(answerDnaSquence);
             var pObj = DNAtoProtein(dna_templateStr);
@@ -950,11 +1027,13 @@ function checkForPointMutation(){
             // if ((pObj.name.indexOf(jsonData.quiz[dObj.questionNo].mutation.from)===-1) && (pObj.name.indexOf(jsonData.quiz[dObj.questionNo].mutation.to)!==-1)) {
             var checkObj = checkAminoacidSequence();
             if (checkObj.correctPointMutation) {
+                console.log('checkForPointMutation - A7');
                 var HTML = '';
                 UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>' + trySameQuestionAgain());
 
                 setAnswerMem(true, HTML);
             } else {
+                console.log('checkForPointMutation - A8');
                 console.log('checkForPointMutation - punktmutation er lavet, men det er ikke den rigtige aminosyre!');
                 
                 // var HTML = 'Punktmutation er lavet, men substitution af nukleotider er ikke lavet på den rigtige aminosyre!';
@@ -962,14 +1041,46 @@ function checkForPointMutation(){
 
                 setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
             }
+        } else {
+            console.log('checkForPointMutation - A9');
+            if (!window.hasStopCodon) {
+                var HTML = 'En ændring i læserammen (frameshift) er foretaget!';
+                UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+                setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+            } else {
+                var HTML = 'To eller flere punktmutationer er foretaget - du skal kun lave een punktmutation!';
+                UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+                setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+            }
         }
         
     } else {
-        console.log('checkForPointMutation - DNA har ændret længde!');
-        var HTML = 'DNAet har ændret længde. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) som ikke ændrer længden på DNAet!';
-        UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+        console.log('checkForPointMutation - A2');
+        console.log('checkForPointMutation: \nmRNA_gene_raw new: ' + TpObj.mRNA_gene_raw + '\nmRNA_gene_raw old: ' + pObj_old.mRNA_gene_raw);
+        // if (findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw).length == 0) { // if the gene has NOT changed, then...
+        if (answerDnaSquence.length == codingStrand.length) { 
+            console.log('checkForPointMutation - A3');
+            console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+            var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
+            UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
 
-        setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+            setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+        } else {
+            console.log('checkForPointMutation - A4');
+            // console.log('checkForPointMutation - DNA har ændret længde!');
+            // var HTML = 'DNAet har ændret længde. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) som ikke ændrer længden på DNAet!';
+            // UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+            // setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+
+            console.log('checkForPointMutation - DNA har ændret længde!');
+            var HTML = 'DNAet har ændret længde UDEN for genet, dvs. uden for start- og stop-sekvenserne i DNAet. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) inde i gensekvensen som ikke ændrer længden på DNAet!';
+            UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
+
+            setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
+        }
     }
 }
 
@@ -989,10 +1100,14 @@ function checkAminoacidSequence(){
     var pName_new = $('#protein_name').text().split(', ');
     console.log('checkAminoacidSequence - pName_new: ' + JSON.stringify(pName_new));
 
+    console.log('checkAminoacidSequence - mutation.from: '+jsonData.quiz[dObj.questionNo].mutation.from+', mutation.to: '+jsonData.quiz[dObj.questionNo].mutation.to+' \npName_old:' + pName_old + '\npName_new:' + pName_new);
+
     var errMsg = '';
     var correctPointMutation = false;
     for (var n in pName_new) {
-        console.log('checkAminoacidSequence - pName_old[n]: ' + pName_old[n] + ', pName_new[n]: ' + pName_new[n]);
+
+        console.log('checkAminoacidSequence - pName_old['+n+']: ' + pName_old[n] + ', pName_new['+n+']: ' + pName_new[n]);
+
         if ((pName_old[n] == jsonData.quiz[dObj.questionNo].mutation.from) && (pName_new[n] == jsonData.quiz[dObj.questionNo].mutation.to)) {
             correctPointMutation = true;
         }
@@ -1001,7 +1116,7 @@ function checkAminoacidSequence(){
             errMsg = 'Du har lavet en punktmutation i det rigtige codon, men det er ikke den ønskede aminosyre.'
         }
 
-        if ((pName_old[n] != jsonData.quiz[dObj.questionNo].mutation.from) && (pName_new[n] == jsonData.quiz[dObj.questionNo].mutation.to)) {
+        if ((pName_old[n] != jsonData.quiz[dObj.questionNo].mutation.from) && (pName_new[n] == jsonData.quiz[dObj.questionNo].mutation.to) && (pName_old[n] != pName_new[n])) {
             errMsg = 'Du har lavet en punktmutation i det forkerte codon (men har dog opnået den ønskede aminosyre).'
         }
     }
@@ -1117,7 +1232,7 @@ function getWrongAndUnansweredQuestions(){
         ansObj.msg = 'Du mangler at svare på spørgsmål '+printArrayContent(ansObj.unanswered)+', og har svaret forkert på spørgsmål '+printArrayContent(ansObj.wrong);
     }
 
-    ansObj.msg += (ansObj.msg.length > 0)? '<br>Brug <div id="question" class="question_specMarkup"><span class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </span> <span class="btn btn-info vuc-primary"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> </span> </div>knapperne til at navigere tilbage og besvare spørgsmålene.' : ''; 
+    ansObj.msg += (ansObj.msg.length > 0)? '<br>Brug <div id="question" class="question_specMarkup"><span class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> </span> <span class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> </span> </div>knapperne til at navigere tilbage og besvare spørgsmålene.' : ''; 
 
     // UserMsgBox("body", '<h3>OBS</h3>'+ansObj.msg+'');
 
@@ -1332,7 +1447,8 @@ function ajustCaretPosition(pos, event) {
     var charAfterCaret = dna.substr(pos+1,1);
     var oneSpaceExist = (dna.split(' ').length == 2)? true : false ;
 
-    // event.which == 8  : backspace
+    // event.which == 46 : forward delete
+    // event.which == 8  : backward delete
     // event.which == 32 : space
     // event.which == 37 : left
     // event.which == 39 : right
@@ -1341,13 +1457,13 @@ function ajustCaretPosition(pos, event) {
     // event.which == 71 : g
     // event.which == 84 : t
 
-    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved passed a codon-space, then prevent ajustment of caret. 
+    var posAjust = ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39))? 1 : 0;  // If the user has just typed A, C, G or T and the caret has moved past/passed a codon-space, then prevent ajustment of caret. 
     if ((charBeforeCaret == ' ') && (event.which != 32) && (event.which != 8) && (event.which != 37) && (event.which != 39)) {console.log('ajustCaretPosition - A')}
 
     posAjust = ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) ? posAjust : posAjust - 1 ;  // Move the caret back if A, C, G or T has not been entered.
     if ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) {console.log('ajustCaretPosition - B')}
 
-    posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
+    posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)  || (event.which == 46)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
     if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - C')}
 
     posAjust = (oneSpaceExist) ? posAjust+1 : posAjust ;  // If the user starts from a clean input-field AND enters DNA bases BEFORE the start codon (then oneSpaceExist is true), then add one to the caret position.
@@ -1356,7 +1472,7 @@ function ajustCaretPosition(pos, event) {
     posAjust = ((event.which == 8) && (charBeforeCaret == ' ')) ? posAjust-1 : posAjust ;  // If the user presses backspace AND there is a codon-space before the caret, then prevent ajustment of caret.
     if ((event.which == 8) && (charBeforeCaret == ' ')) {console.log('ajustCaretPosition - E')}
 
-    posAjust = ((oneSpaceExist) && (event.which == 8)) ? posAjust-1 : posAjust ;  // This corrects the error in consol.log "D" above.
+    posAjust = ((oneSpaceExist) && (event.which == 8)) ? posAjust-1 : posAjust ;  // This corrects the error in consol.log "D" above, when the caret is moved backwards by backspace AND there are two codons left (inc start-codon).
     if ((oneSpaceExist) && (event.which == 8)) {console.log('ajustCaretPosition - G')}
     
     console.log('ajustCaretPosition - posAjust: ' + posAjust);
@@ -1599,6 +1715,17 @@ function getAnswerMem(){
 }
 
 
+// This function removes the counter and navigation buttons fron all the tasks where the number of questions are equal to one:
+function removeTaskCounterAndTaskNavBtns(){
+    if (jsonData.quiz.length == 1){
+        $('#goToPreviousQuestionBtn').remove();
+        $('#goToNextQuestionBtn').remove();
+        $('#questionCounter').remove();
+        $('.questionText').css({'margin-left' : '0px'});
+    }
+}
+
+
 //=======================================================================================
 //                  Run code
 //=======================================================================================
@@ -1633,6 +1760,8 @@ $(document).ready(function() {
     console.log('getWrongAndUnansweredQuestions(): ' + JSON.stringify( getWrongAndUnansweredQuestions() ) );
 
     returnAllAminoAcids();
+
+    removeTaskCounterAndTaskNavBtns();
 
 });
 
