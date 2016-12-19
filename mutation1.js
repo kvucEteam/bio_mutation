@@ -1740,7 +1740,7 @@ $(document).ready(function() {
 
     $('#header').prepend(jsonData.header);
     $('#instruction').prepend(instruction(jsonData.instruction));  
-    // $('#explanation').prepend(explanation(jsonData.explanation));
+    $('#explanation').prepend(explanation(jsonData.explanation));
 
     dObj.questionNo = 0;  // Set the first quiz
     dObj.isAnswerCorrect = null;

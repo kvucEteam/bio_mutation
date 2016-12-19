@@ -630,7 +630,7 @@ $(document).ready(function() {
     
     $('#header').prepend(jsonData.header);
     $('#instruction').prepend(instruction(jsonData.instruction));  
-    // $('#explanation').prepend(explanation(jsonData.explanation));
+    $('#explanation').prepend(explanation(jsonData.explanation));
 
     $('#input').val(jsonData.codingStrand.toUpperCase());
     var pObj = DNAtoProtein(dna_templateStr);
