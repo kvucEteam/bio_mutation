@@ -583,7 +583,7 @@ function checkForInsertedRestrictionEnzyme(restrictionEnzyme){
         }
     }
 
-    var generalErrorMsg = 'Brug "den genetiske kode" til finde ud af hvilke stille mutationer du kan lave for at opnå DNA-sekvensen '+restrictionEnzyme + '. En stille mutation ændrer ikke på aminosyrerækkefølgen.' + tryAgainAndgoToNextQuestionBtns() ;
+    var generalErrorMsg = 'Brug "den genetiske kode" til finde ud af hvilke stille mutationer du kan lave for at opnå DNA-sekvensen '+restrictionEnzyme + '. En stille mutation ændrer ikke på aminosyrerækkefølgen. <br>Husk at de 6 baser i genkendelses-sekvensen ikke behøver at starte ved starten af en codon.' + tryAgainAndgoToNextQuestionBtns() ;
 
     if (mArr.length > 0){
         if (pObj.name == pObj_old.name){
@@ -863,6 +863,8 @@ function checkForSilentMutation(){
                 mArr.push(n);
             }
         }
+        console.log('checkForSilentMutation - mArr: ' + mArr);
+
         if (mArr.length == 0){
             console.log('checkForSilentMutation - A2');
             console.log('checkForSilentMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
@@ -888,7 +890,15 @@ function checkForSilentMutation(){
                 if (typeof(jsonData.quiz[dObj.questionNo].mutation)!=='undefined') {  // Only IF the "from" AND "to" properties are defined, then specific feedback is given...
                     console.log('checkForSilentMutation - A7');
                     var checkObj = checkAminoacidSequence();
-                    if (checkObj.correctPointMutation) {
+                    // if (checkObj.correctPointMutation) {
+                    var nameArr_old = pObj_old.name.split(', ');
+                    var nameArr_new = TpObj.name.split(', ');
+                    var codonNo = Math.floor(mArr[0]/3);
+                    console.log('checkForSilentMutation - codonNo: ' + codonNo + ', nameArr_new['+codonNo+']: ' + nameArr_new[codonNo]);
+                    console.log('checkForSilentMutation - dObj.questionNo: ' + dObj.questionNo + ', from: ' + jsonData.quiz[dObj.questionNo].mutation.from + ', nameArr_old['+parseInt(dObj.questionNo+1)+']: ' + nameArr_old[dObj.questionNo+1] + ', nameArr_new['+parseInt(dObj.questionNo+1)+']: ' + nameArr_new[dObj.questionNo+1]);
+                    if ((jsonData.quiz[dObj.questionNo].mutation.from == nameArr_old[dObj.questionNo+1]) && 
+                        (jsonData.quiz[dObj.questionNo].mutation.to == nameArr_new[dObj.questionNo+1]) && 
+                        nameArr_new[codonNo] == jsonData.quiz[dObj.questionNo].mutation.to) {
                         console.log('checkForSilentMutation - A8');
                         var HTML = '';
                         UserMsgBox("body", '<h3>Du har svaret<span class="label label-success">Korrekt!</span></h3><p>'+HTML+'</p>');
@@ -929,7 +939,7 @@ function checkForSilentMutation(){
             setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
         }
     } else {
-        console.log('checkForPointMutation - A11');
+        console.log('checkForSilentMutation - A11');
 
         // console.log('checkForSilentMutation - DNA har ændret længde');
         // var HTML = 'DNA har ændret længde - du skal lave en stille mutation som ikke ændrer længden!';
@@ -940,14 +950,14 @@ function checkForSilentMutation(){
         console.log('checkForPointMutation: \nmRNA_gene_raw new: ' + TpObj.mRNA_gene_raw + '\nmRNA_gene_raw old: ' + pObj_old.mRNA_gene_raw);
         // if (findStrDiff(TpObj.mRNA_gene_raw, pObj_old.mRNA_gene_raw).length == 0) { // if the gene has NOT changed, then...
         if (answerDnaSquence.length == codingStrand.length) { 
-            console.log('checkForPointMutation - A3');
-            console.log('checkForPointMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
+            console.log('checkForSilentMutation - A3');
+            console.log('checkForSilentMutation - DNA har ikke ændret sig - ingen punktmutation er lavet!');
             var HTML = 'DNA har ikke ændret sig - ingen punktmutation er lavet!';
             UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
 
             setAnswerMem(false, HTML+'<br>'+generalErrorMsg);
         } else {
-            console.log('checkForPointMutation - A4');
+            console.log('checkForSilentMutation - A4');
             // console.log('checkForPointMutation - DNA har ændret længde!');
             // var HTML = 'DNAet har ændret længde. Du skal lave en punktmutation (substitution/udskiftning af nukleotider) som ikke ændrer længden på DNAet!';
             // UserMsgBox("body", '<h3>Du har svaret<span class="label label-danger">Forkert!</span></h3><p>'+HTML+'<br>'+generalErrorMsg+'</p>');
@@ -1464,7 +1474,7 @@ function ajustCaretPosition(pos, event) {
     if ((event.which == 65) || (event.which == 67) || (event.which == 71) || (event.which == 84)) {console.log('ajustCaretPosition - B')}
 
     posAjust = ((event.which == 37) || (event.which == 39) || (event.which == 8)  || (event.which == 46)) ? posAjust+1 : posAjust ; // Do not ajust position if backspace, left og right is entered. 
-    if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - C')}
+    if ((event.which == 37) || (event.which == 39) || (event.which == 8) || (event.which == 46)) {console.log('ajustCaretPosition - C')}
 
     posAjust = (oneSpaceExist) ? posAjust+1 : posAjust ;  // If the user starts from a clean input-field AND enters DNA bases BEFORE the start codon (then oneSpaceExist is true), then add one to the caret position.
     if ((event.which == 37) || (event.which == 39) || (event.which == 8)) {console.log('ajustCaretPosition - D')}
@@ -1761,7 +1771,7 @@ $(document).ready(function() {
 
     returnAllAminoAcids();
 
-    removeTaskCounterAndTaskNavBtns();
+    // removeTaskCounterAndTaskNavBtns();
 
 });
 

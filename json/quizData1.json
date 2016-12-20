@@ -6,63 +6,63 @@
 	"quiz" : [
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"Glutaminsyre", "to":"Glutaminsyre"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i leucin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Leucin", "to":"Leucin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"Serin", "to":"Serin"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i prolin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Prolin", "to":"Prolin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i histidin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Histidin", "to":"Histidin"}
+		},
+		{
+			"mutationType" : "silentMutation",
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i glutamin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Glutamin", "to":"Glutamin"}
+		},
+		{
+			"mutationType" : "silentMutation",
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i arginin uden at ændre på aminosyresekvensen (stille mutation)",
 			"mutation":{"from":"Arginin", "to":"Arginin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i isoleucin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Isoleucin", "to":"Isoleucin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i threonin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Threonin", "to":"Threonin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i asparagin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Asparagin", "to":"Asparagin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i lysin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Lysin", "to":"Lysin"}
 		},
 		{
 			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
-		},
-		{
-			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
-		},
-		{
-			"mutationType" : "silentMutation",
-			"codingStrand": "ATGGAGTCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Lav en ny punktmutation uden at ændre på aminosyresekvensen (stille mutation)",
-			"mutation":{"from":"XXXX", "to":"XXXX"}
+			"codingStrand": "ATGCTTCCTCATCAACGTATTACTAATAAAAGTTGA",
+			"question": "Lav en punktmutation i serin uden at ændre på aminosyresekvensen (stille mutation)",
+			"mutation":{"from":"Serin", "to":"Serin"}
 		}
 	]
 }		
