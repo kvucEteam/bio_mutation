@@ -8,7 +8,8 @@
 			"mutationType" : "insertedRestrictionEnzyme",
 			"restrictionEnzyme" : "GGATCC",
 			"codingStrand": "ATGGGATCTCGAATCGCTGGGATTCGGAACTCTAAGCCATGA",
-			"question": "Restriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen."
+			"question_OLD": "Restriktionsenzymet BamHI genkender sekvensen GGATCC. Lav om på DNA-sekvensen, så den indeholder denne sekvens, men uden at ændre på aminosyresekvensen.",
+			"question": "Restriktionsenzymet BamHI genkender sekvensen GGATCC. Opgaven kan løses på mindst to måder, eftersom sekvensen ikke nødvendigvis behøver at starte ved starten af en codon. Lav om på DNA-sekvensen, så den indeholder sekvensen GGATCC, men uden at ændre på aminosyresekvensen."
 		},
 		{
 			"mutationType" : "insertedRestrictionEnzyme",

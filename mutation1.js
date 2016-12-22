@@ -182,7 +182,7 @@ function tryAgainAndgoToNextQuestionBtns() {
 
 
 function trySameQuestionAgain() {
-    var btnHtml = '<span class="trySameQuestionAgain btn btn-info">Prøv igen</span>';
+    var btnHtml = '<span class="trySameQuestionAgain btn btn-info">Prøv denne opgave igen</span> <span class="btn btn-info">Gå videre</span>';
     return btnHtml;
 }
 
@@ -1196,8 +1196,10 @@ function checkAnswer(){
     console.log('checkAnswer - ansObj: ' + JSON.stringify(ansObj));
 
     if (ansObj.allAswered) {
-        var HTML = 'Du har svaret på alle opgaverne. <br> <span id="tryAgain" class="btn btn-info">Klik her for at prøve igen</span>';
-        UserMsgBox("body", '<h3>Rigtig<span class="label label-success">Flot klaret!</span></h3><p>'+HTML+'</p>');
+        var HTML = 'Du er færdig med alle opgaverne. <br> <span id="tryAgain" class="btn btn-info">Prøv alle opgaverne igen?</span>';
+        UserMsgBox("body", '<h3><span id="lastMsg" class="label label-success">Flot klaret!</span></h3><p>'+HTML+'</p>');
+
+        $('.CloseClass').remove();
     } else {
 
         if (dObj.questionNo < dObj.questionCounter){
@@ -1507,6 +1509,11 @@ function align_protein_sym(){
         var diff = posChild.left - posParent.left - 3;
         console.log('align_protein_sym - posParent: ' + posParent + ', posChild: ' + posChild + ', diff: ' + diff);
         $('#protein_sym .methionin:first').css({'margin-left' : diff});
+
+        var width = $('#input').width();
+        console.log('align_protein_sym - width: ' + width);
+        $('#protein_name').css({'margin-left':diff});  
+        $('#protein_name').width(width - diff);
     }
 }
 

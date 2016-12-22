@@ -525,6 +525,11 @@ function align_protein_sym(){
         var diff = posChild.left - posParent.left - 3;
         console.log('align_protein_sym - posParent: ' + posParent + ', posChild: ' + posChild + ', diff: ' + diff);
         $('#protein_sym .methionin:first').css({'margin-left' : diff});
+
+        var width = $('#input').width();
+        console.log('align_protein_sym - width: ' + width);
+        $('#protein_name').css({'margin-left':diff});  
+        $('#protein_name').width(width - diff);
     }
 }
 
