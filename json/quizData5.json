@@ -8,7 +8,7 @@
 			"mutationType" : "madeAminoacidSequence",
 			"codingStrand": "",
 			"aminoacidSequence" : "Met-Ser-Leu-Leu-Ser-Leu-Ile-Arg-Lys-Leu-Ile-Tyr",
-			"question": "Skriv en DNA-sekvens, som vil translateres til aminosyresekvensen for hvepsegiften decoralin: Met-Ser-Leu-Leu-Ser-Leu-Ile-Arg-Lys-Leu-Ile-Tyr. Husk stop-codon."
+			"question": "Skriv en DNA-sekvens, som vil translateres til aminosyrerækkefølgen for hvepsegiften decoralin: Met-Ser-Leu-Leu-Ser-Leu-Ile-Arg-Lys-Leu-Ile-Tyr. Husk stop-codon."
 		}
 	]
 }		
