@@ -4,6 +4,6 @@
 	"explanation" : "Her ser du et stykke dobbeltstrenget DNA. Nedenunder ses den mRNA-sekvens som DNAet transskriberes til, og nederst kan du se aminosyrerækkefølgen som dannes ved translation. Nederst på siden kan du se den genetiske kode, som viser sammenhængen mellem DNA-sekvens og aminosyresekvens. Ændringer i DNA kaldes mutationer, og de kan føre til ændringer i aminosyrerækkefølgen.",
 	"codingStrand_old": "TTTATGCTGATGAGGTGACTTTGAACC",
 	"codingStrand_temp": "TGTATCCTTATGCTGATGGGGTCGCGTTACCCCCAGGTGACTTTGTGAGTTCGGT",
-	"codingStrand" : "tcgtttATGTTTTATTGTTGGCTTCCTCATCAACGTATTACTAATAAAAGTAGAGTTGCTGATGGTTGAccgct",
+	"codingStrand" : "tcgttatgGCTAGAAATGATTGTTTTCAAGAGGGTCATATTCTTAAAATGCCTAGTACTTGGTATGTTtgaccgct",
 	"codingStrand_all_neucleotides" : "ATGTTTTATTGTTGGCTTCCTCATCAACGTATTACTAATAAAAGTAGAGTTGCTGATGGTTGA"
 }					 
